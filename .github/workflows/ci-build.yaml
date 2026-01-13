@@ -1,0 +1,192 @@
+name: Tetris build
+
+on:
+  push:
+    branches-ignore:
+      - "gh-pages"
+  pull_request:
+    branches-ignore:
+      - "gh-pages"
+
+env:
+  EXECUTABLES: "tetris"
+
+jobs:
+  check_compilation_linux:
+    name: Check compilation on Linux
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake \
+                                  build-essential \
+                                  gcc \
+                                  libgl-dev \
+                                  libgl1-mesa-dev \
+                                  libx11-xcb-dev \
+                                  libfontenc-dev \
+                                  libice-dev \
+                                  libsm-dev \
+                                  libxaw7-dev \
+                                  libxcomposite-dev \
+                                  libxcursor-dev \
+                                  libxdamage-dev \
+                                  libxext-dev \
+                                  libxfixes-dev \
+                                  libxi-dev \
+                                  libxinerama-dev \
+                                  libxkbfile-dev \
+                                  libxmu-dev \
+                                  libxmuu-dev \
+                                  libxpm-dev \
+                                  libxrandr-dev \
+                                  libxrender-dev \
+                                  libxres-dev \
+                                  libxss-dev \
+                                  libxt-dev \
+                                  libxtst-dev \
+                                  libxv-dev \
+                                  libxxf86vm-dev \
+                                  libxcb-glx0-dev \
+                                  libxcb-render0-dev \
+                                  libxcb-render-util0-dev \
+                                  libxcb-xkb-dev \
+                                  libxcb-icccm4-dev \
+                                  libxcb-image0-dev \
+                                  libxcb-keysyms1-dev \
+                                  libxcb-randr0-dev \
+                                  libxcb-shape0-dev \
+                                  libxcb-sync-dev \
+                                  libxcb-xfixes0-dev \
+                                  libxcb-xinerama0-dev \
+                                  libxcb-dri3-dev \
+                                  uuid-dev \
+                                  libxcb-cursor-dev \
+                                  libxcb-dri2-0-dev \
+                                  libxcb-dri3-dev \
+                                  libxcb-present-dev \
+                                  libxcb-composite0-dev \
+                                  libxcb-ewmh-dev \
+                                  libxcb-res0-dev \
+                                  libxcb-util0-dev \
+                                  libxcb-util-dev \
+                                  xvfb
+
+      - name: Setup Dummy Audio Driver
+        run: |
+          echo "pcm.!default { type plug; slave.pcm \"null\"; }" > ~/.asoundrc
+
+      - name: Setup Python environment
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Install conan and gcovr
+        run: pip install conan gcovr
+
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Cache Conan packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.conan2/p
+          key: ${{ runner.os }}-conan-${{ hashFiles('conanfile.txt', 'conanfile.py') }}
+          restore-keys: ${{ runner.os }}-conan-
+
+      - name: Cache build with ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: ${{ runner.os }}-ccache-${{ hashFiles('**/CMakeLists.txt') }}
+          restore-keys: ${{ runner.os }}-ccache-
+
+      - name: Conan generate build directory
+        run: |
+          conan profile detect --force
+          conan install . --build=missing -s compiler.cppstd=20 -s build_type=Debug
+
+      - name: Configure CMake
+        run: |
+          cmake --preset conan-debug  -D BUILD_TESTING=ON \
+                                      -D CMAKE_C_COMPILER_LAUNCHER=ccache \
+                                      -D CMAKE_CXX_COMPILER_LAUNCHER=ccache
+
+      - name: Build project
+        run: cmake --build --preset conan-debug
+
+      - name: Run unit tests
+        run: xvfb-run --auto-servernum ctest --test-dir build/Debug/ --output-on-failure
+
+      - name: Generate HTML report
+        uses: threeal/gcovr-action@v1.2.0
+        with:
+          root: .
+          excludes: |
+            "tests/"
+            "build/"
+            ".*/conan/.*"
+          html-out: coverage.html
+          print-summary: true
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.html
+
+      - name: Check if EXECUTABLES exist
+        run: |
+          for BINARY in $(echo ${{ env.EXECUTABLES }} | tr "," "\n"); do
+            BINARY_PATH=$(find "$(pwd)" -name "$BINARY" -type f -executable | head -n 1)
+            if [ -z "$BINARY_PATH" ]; then
+              echo "Error during compilation !"
+              exit 1
+            else
+              echo "Found $BINARY at $BINARY_PATH"
+            fi
+          done
+
+  check_compilation_windows:
+      name: Check compilation on Windows
+      runs-on: windows-latest
+
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v5
+
+        - name: Install Conan
+          run: pip install conan
+
+        - name: Cache Conan packages
+          uses: actions/cache@v4
+          with:
+            path: ~/.conan2/p
+            key: ${{ runner.os }}-conan-${{ hashFiles('conanfile.txt', 'conanfile.py') }}
+            restore-keys: ${{ runner.os }}-conan-
+
+        - name: Conan generate build directory
+          run: |
+            conan profile detect --force
+            conan install . --build=missing -s compiler.cppstd=20
+
+        - name: Configure CMake
+          run: cmake --preset conan-default
+
+        - name: Build project
+          run: cmake --build --preset conan-release
+
+        - name: Check if EXECUTABLES exist
+          shell: bash
+          run: |
+            for BINARY in $(echo ${{ env.EXECUTABLES }} | tr "," "\n"); do
+              BINARY_EXE="${BINARY}.exe"
+              BINARY_PATH=$(find . -name "$BINARY_EXE" -type f | head -n 1)
+              if [ -z "$BINARY_PATH" ]; then
+                echo "Error during compilation: $BINARY_EXE not found!"
+                exit 1
+              else
+                echo "Found $BINARY_EXE at $BINARY_PATH"
+              fi
+            done
