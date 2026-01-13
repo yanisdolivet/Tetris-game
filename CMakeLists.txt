@@ -14,6 +14,9 @@ set(NAME tetris)
 
 set(TETRIS_SOURCES
     main.cpp
+    src/Game.cpp
+    src/logs/Logs.cpp
+    src/Board.cpp
 )
 
 include(FetchContent)
@@ -21,7 +24,7 @@ include(FetchContent)
 FetchContent_Declare(
     game_engine
     GIT_REPOSITORY https://github.com/yanisdolivet/RType-GameEngine
-    GIT_TAG        main
+    GIT_TAG        release/tetris
 )
 FetchContent_MakeAvailable(game_engine)
 
@@ -48,6 +51,7 @@ endif()
 # Find all package installed with Conan
 find_package(raylib CONFIG REQUIRED)
 find_package(GTest REQUIRED)
+find_package(fmt REQUIRED)
 find_package(spdlog REQUIRED)
 
 if (BUILD_TESTING)
@@ -82,7 +86,19 @@ endif()
 # Add executable
 add_executable(${NAME} ${TETRIS_SOURCES})
 
-target_include_directories(${NAME} PRIVATE ${CMAKE_SOURCE_DIR}/include)
+target_include_directories(${NAME} PRIVATE
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/include/logs
+    ${CMAKE_SOURCE_DIR}/include/events
+)
+
+# Link libraries
+target_link_libraries(${NAME} PRIVATE
+    raylib
+    GameEngine
+    spdlog::spdlog
+    fmt::fmt
+)
 
 # Set executable at root of project
 set_target_properties(${NAME} PROPERTIES
@@ -94,7 +110,7 @@ find_program(FORMAT_BIN clang-format)
 
 if (FORMAT_BIN)
     add_custom_target(format
-        COMMAND find ${CMAKE_SOURCE_DIR}
+        COMMAND find src include
                 -type f
                 -name "*.*pp"
                 -exec ${FORMAT_BIN} -i {} +
