@@ -1,0 +1,27 @@
+Checks: >
+  -*,
+  bugprone-*,
+  readability-*,
+  modernize-*,
+  performance-*,
+  portability-*,
+  cppcoreguidelines-*,
+  clang-analyzer-*,
+  misc-*,
+  -cppcoreguidelines-avoid-magic-numbers,
+  -cppcoreguidelines-owning-memory,
+  -cppcoreguidelines-pro-type-reinterpret-cast,
+  -readability-magic-numbers
+
+# Do not convert warnings into errors
+WarningsAsErrors: ''
+# Check all .h, .hpp, .cpp, .c files
+HeaderFilterRegex: '.*'
+# Analyses temporary object destructors to detect
+AnalyzeTemporaryDtors: true
+
+CheckOptions:
+  - key: readability-braces-around-statements.ShortStatementLines
+    value: '1'
+  - key: modernize-use-nullptr.NullMacros
+    value: 'NULL'

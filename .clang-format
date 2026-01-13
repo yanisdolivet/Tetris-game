@@ -1,0 +1,47 @@
+BasedOnStyle: LLVM
+
+IndentWidth: 4
+ContinuationIndentWidth: 4
+IndentAccessModifiers: true
+
+BreakBeforeBraces: Custom
+
+BraceWrapping:
+  AfterNamespace: true
+  AfterClass: true
+  AfterStruct: true
+  AfterControlStatement: false
+  AfterFunction: true
+  AfterEnum: true
+  BeforeElse: true
+  BeforeCatch: true
+  IndentBraces: false
+
+AllowShortFunctionsOnASingleLine: false
+AllowShortBlocksOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+AllowShortLambdasOnASingleLine: false
+
+SpaceBeforeParens: ControlStatements
+
+PointerAlignment: Left
+DerivePointerAlignment: false
+
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: false
+AlignOperands: true
+
+ColumnLimit: 120
+
+NamespaceIndentation: All
+
+SortIncludes: CaseSensitive
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex: "^<.*>$"
+    Priority: 1
+  - Regex: ".*"
+    Priority: 2
+
+AlwaysBreakTemplateDeclarations: Yes
