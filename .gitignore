@@ -74,6 +74,5 @@ r-type_client
 
 ### Debug ###
 vgcore.*
-logs/
 *.bak
 
