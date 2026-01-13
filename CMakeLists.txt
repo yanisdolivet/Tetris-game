@@ -88,6 +88,7 @@ add_executable(${NAME} ${TETRIS_SOURCES})
 target_include_directories(${NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/include/logs
+    ${CMAKE_SOURCE_DIR}/include/events
 )
 
 # Link libraries
