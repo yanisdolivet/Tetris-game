@@ -11,7 +11,7 @@ namespace Tetris
 {
     Game::Game()
     {
-        this->_graphic = std::make_shared<Graphic::Raylib>();
+        this->_graphic          = std::make_shared<Graphic::Raylib>();
         this->_resource_manager = std::make_unique<ResourceManager>(*_graphic, *_graphic);
     }
 

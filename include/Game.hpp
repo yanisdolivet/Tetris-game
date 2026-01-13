@@ -25,11 +25,11 @@
 #include <Position.hpp>
 #include <Raylib.hpp>
 #include <RenderSystem.hpp>
+#include <ResourceManager.hpp>
 #include <Speed.hpp>
 #include <SpriteComponent.hpp>
 #include <Velocity.hpp>
 #include <memory>
-#include <ResourceManager.hpp>
 
 #include "Logs.hpp"
 

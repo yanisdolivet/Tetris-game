@@ -24,12 +24,12 @@ namespace Tetris
                 registry.getComponents<Components::DrawableComponent>().insertAt(
                     entity, Components::DrawableComponent{source_rect, true, scale, layer});
 
-                registry.getComponents<Components::SpriteComponent>().insertAt(entity,
-                                                                            Components::SpriteComponent{"BLOCK", layer});
+                registry.getComponents<Components::SpriteComponent>().insertAt(
+                    entity, Components::SpriteComponent{"BLOCK", layer});
 
                 registry.getComponents<Components::Position>().insertAt(
                     entity, Components::Position{static_cast<float>(x * (WIDTH_BLOCK * scale.x) + offset_x),
-                                                static_cast<float>(row * (HEIGHT_BLOCK * scale.y) + offset_y)});
+                                                 static_cast<float>(row * (HEIGHT_BLOCK * scale.y) + offset_y)});
             }
             row = BOARD_HEIGHT - 1;
         }
