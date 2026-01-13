@@ -93,6 +93,9 @@ namespace Tetris
         // Collision System
         this->_engine.getRegistry().addSystem<Components::Position, Components::Collider>(CollisionSystem());
 
+        // Block Spawner System
+        this->_engine.getRegistry().addSystem<>(BlockSpawner());
+
         LOG_INFO("Initializing game systems");
     }
 

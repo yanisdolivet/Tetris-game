@@ -35,6 +35,7 @@
 #include "DropingEntity.hpp"
 #include "Logs.hpp"
 #include "MapDefinitions.hpp"
+#include "BlockSpawner.hpp"
 
 namespace Tetris
 {

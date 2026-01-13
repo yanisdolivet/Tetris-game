@@ -18,6 +18,7 @@ set(TETRIS_SOURCES
     src/logs/Logs.cpp
     src/Board.cpp
     src/DropingEntity.cpp
+    src/systems/BlockSpawner.cpp
 )
 
 include(FetchContent)
@@ -91,6 +92,7 @@ target_include_directories(${NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/include/logs
     ${CMAKE_SOURCE_DIR}/include/events
+    ${CMAKE_SOURCE_DIR}/include/systems
 )
 
 # Link libraries
