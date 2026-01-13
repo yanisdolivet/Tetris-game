@@ -29,15 +29,12 @@
 #include <Speed.hpp>
 #include <SpriteComponent.hpp>
 #include <Velocity.hpp>
+#include <chrono>
 #include <memory>
 
+#include "DropingEntity.hpp"
 #include "Logs.hpp"
-
-#define WIDTH_BLOCK 16.0f
-#define HEIGHT_BLOCK WIDTH_BLOCK
-
-#define BOARD_WIDTH 10
-#define BOARD_HEIGHT 20
+#include "MapDefinitions.hpp"
 
 namespace Tetris
 {
@@ -111,5 +108,7 @@ namespace Tetris
             // Board offsets
             float _offset_x = 0.0f;
             float _offset_y = 0.0f;
+
+            std::unique_ptr<DropingEntity> _dropingEntity;
     };
 } // namespace Tetris

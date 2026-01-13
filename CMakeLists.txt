@@ -17,6 +17,7 @@ set(TETRIS_SOURCES
     src/Game.cpp
     src/logs/Logs.cpp
     src/Board.cpp
+    src/DropingEntity.cpp
 )
 
 include(FetchContent)

@@ -13,6 +13,7 @@ namespace Tetris
     {
         this->_graphic          = std::make_shared<Graphic::Raylib>();
         this->_resource_manager = std::make_unique<ResourceManager>(*_graphic, *_graphic);
+        this->_dropingEntity    = std::make_unique<DropingEntity>(this->_engine.getRegistry());
     }
 
     Game::~Game()
@@ -35,7 +36,7 @@ namespace Tetris
     {
         this->_engine.start();
         this->_engine.run();
-        LOG_INFO("Game Runnning");
+        LOG_INFO("Game Running");
     }
 
     void Game::_initEntities()
