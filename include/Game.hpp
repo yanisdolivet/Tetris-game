@@ -29,8 +29,15 @@
 #include <SpriteComponent.hpp>
 #include <Velocity.hpp>
 #include <memory>
+#include <ResourceManager.hpp>
 
 #include "Logs.hpp"
+
+#define WIDTH_BLOCK 16.0f
+#define HEIGHT_BLOCK WIDTH_BLOCK
+
+#define BOARD_WIDTH 10
+#define BOARD_HEIGHT 20
 
 namespace Tetris
 {
@@ -40,13 +47,13 @@ namespace Tetris
             Game();
             ~Game();
 
-            /*
+            /**
              * @brief Initialize the game
              * @return void
              */
             void init();
 
-            /*
+            /**
              * @brief Run the game loop
              * @return void
              */
@@ -54,38 +61,55 @@ namespace Tetris
 
         protected:
         private:
-            /*
+            /**
              * @brief Initialize game entities
              * @return void
              */
             void _initEntities();
 
-            /*
+            /**
              * @brief Initialize game components
              * @return void
              */
             void _initComponents();
 
-            /*
+            /**
              * @brief Initialize game systems
              * @return void
              */
             void _initSystems();
 
-            /*
+            /**
              * @brief Initialize keybinds
              * @return void
              */
             void _initKeybinds();
 
-            /*
+            /**
              * @brief Initialize event subscriptions
              * @return void
              */
             void _initSubscriptions();
 
+            /**
+             * @brief Initialize graphics
+             * @return void
+             */
+            void _initGraphic();
+
+            /**
+             * @brief Create the game board
+             * @return void
+             */
+            void _createBoard(Registry& registry);
+
         private:
             std::shared_ptr<Graphic::Raylib> _graphic;
             GameEngine::Core _engine;
+            std::unique_ptr<ResourceManager> _resource_manager;
+
+            // Board offsets
+            float _offset_x = 0.0f;
+            float _offset_y = 0.0f;
     };
 } // namespace Tetris

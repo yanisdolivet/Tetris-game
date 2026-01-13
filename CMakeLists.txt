@@ -16,6 +16,7 @@ set(TETRIS_SOURCES
     main.cpp
     src/Game.cpp
     src/logs/Logs.cpp
+    src/Board.cpp
 )
 
 include(FetchContent)
@@ -23,7 +24,7 @@ include(FetchContent)
 FetchContent_Declare(
     game_engine
     GIT_REPOSITORY https://github.com/yanisdolivet/RType-GameEngine
-    GIT_TAG        main
+    GIT_TAG        release/tetris
 )
 FetchContent_MakeAvailable(game_engine)
 

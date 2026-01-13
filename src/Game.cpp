@@ -12,6 +12,7 @@ namespace Tetris
     Game::Game()
     {
         this->_graphic = std::make_shared<Graphic::Raylib>();
+        this->_resource_manager = std::make_unique<ResourceManager>(*_graphic, *_graphic);
     }
 
     Game::~Game()
@@ -20,7 +21,7 @@ namespace Tetris
 
     void Game::init()
     {
-        this->_graphic->initWindow(800, 600, "Tetris Game");
+        this->_initGraphic();
         this->_initComponents();
         this->_initSystems();
         this->_initEntities();
@@ -39,6 +40,10 @@ namespace Tetris
 
     void Game::_initEntities()
     {
+        Registry& registry = this->_engine.getRegistry();
+
+        this->_createBoard(registry);
+
         LOG_INFO("Initializing game entities");
     }
 
@@ -98,7 +103,6 @@ namespace Tetris
 
     void Game::_initKeybinds()
     {
-
         const std::unordered_map<std::string, ActionBinding> actionBindings = getActionBindings();
 
         int key = this->_graphic->stringtoKeyCode("KEY_ESCAPE");
@@ -118,6 +122,20 @@ namespace Tetris
         }
 
         LOG_INFO("Initializing keybinds");
+    }
+
+    void Game::_initGraphic()
+    {
+        this->_graphic->initWindow(800, 600, "Tetris Game");
+        const std::map<std::string, std::string>& sprites = {
+            {"BLOCK", "assets/tetris-Sheet.png"},
+        };
+        this->_resource_manager.get()->loadTexturesFromMap(sprites);
+
+        this->_offset_x = this->_graphic->getWindowSize().first / 2 - (BOARD_WIDTH * (WIDTH_BLOCK * 1.5f)) / 2;
+        this->_offset_y = this->_graphic->getWindowSize().second - (BOARD_HEIGHT * (HEIGHT_BLOCK * 1.5f));
+
+        LOG_INFO("Initializing graphics");
     }
 
 } // namespace Tetris
