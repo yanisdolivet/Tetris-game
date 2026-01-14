@@ -111,6 +111,7 @@ namespace Tetris
         this->_registerEventSpawnBlock(this->_engine);
         this->_registerEventGameOver(this->_engine);
         this->_registerEventLineComplete(this->_engine);
+        this->_registerEventRotateCntClockwise(this->_engine);
         LOG_INFO("Initializing event subscriptions");
     }
 
@@ -132,6 +133,25 @@ namespace Tetris
 
         if (action.onRelease) {
             this->_graphic->addKeyReleasedMapping(key, action.onRelease);
+        }
+
+
+        int keyZ = this->_graphic->stringtoKeyCode("KEY_W");
+        const ActionBinding& Z_action_binding = ActionBinding{
+            .onPress   = [](Registry& registry) {
+                registry.publish(EventRotateCntClockwise{true});
+            },
+            .onRelease = [](Registry& registry) {
+                registry.publish(EventRotateCntClockwise{false});
+            }
+        };
+        if (Z_action_binding.onPress) {
+            LOG_INFO("Adding action to keyZ {}", keyZ);
+            this->_graphic->addKeyMapping(keyZ, Z_action_binding.onPress);
+        }
+
+        if (Z_action_binding.onRelease) {
+            this->_graphic->addKeyReleasedMapping(keyZ, Z_action_binding.onRelease);
         }
 
         LOG_INFO("Initializing keybinds");

@@ -25,6 +25,7 @@ set(TETRIS_SOURCES
     src/events/EventGameOver.cpp
     src/events/EventLineComplete.cpp
     src/systems/LineDeletion.cpp
+    src/events/EventInput.cpp
 )
 
 include(FetchContent)

@@ -22,3 +22,8 @@ struct EventLineComplete
     int lineIndex;
     std::vector<Entity> entitiesToDelete;
 };
+
+struct EventRotateCntClockwise
+{
+    bool pressed;
+};
