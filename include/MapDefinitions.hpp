@@ -19,6 +19,8 @@
 #define STARTING_POSITION_X (160.0f + 6 * (WIDTH_BLOCK * BLOCK_SCALE))
 #define STARTING_POSITION_Y 144.0f
 
+#define BLOCKNAME "BLOCK"
+
 enum BlockColor
 {
     YELLOW_BLOCK,

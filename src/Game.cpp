@@ -98,6 +98,9 @@ namespace Tetris
         // Block Spawner System
         this->_engine.getRegistry().addSystem<>(BlockSpawner());
 
+        // Line Deletion System
+        this->_engine.getRegistry().addSystem<Components::Position, Components::Collider>(LineDeletion());
+
         LOG_INFO("Initializing game systems");
     }
 
@@ -107,6 +110,7 @@ namespace Tetris
         this->_registerEventCollision(this->_engine);
         this->_registerEventSpawnBlock(this->_engine);
         this->_registerEventGameOver(this->_engine);
+        this->_registerEventLineComplete(this->_engine);
         LOG_INFO("Initializing event subscriptions");
     }
 

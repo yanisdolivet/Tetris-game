@@ -368,7 +368,107 @@ namespace Tetris
         std::string blockType               = blockTypes[std::rand() % blockTypes.size()];
 
         LOG_INFO("Spawning block of color {} at row {}", static_cast<int>(color), row);
-        this->generateBlock(color, row, blockType);
+        // this->generateBlock(color, row, blockType);
+        this->createTestLine(17);          // Another complete line at row 17
+        this->createAlmostCompleteLine(12, 5);  // Almost complete line at row 17, missing column 5
+    }
+
+    void DropingEntity::createTestLine(int lineY)
+    {
+        // Create a full line of blocks at the specified Y position for testing line deletion
+        BlockColor testColor = BlockColor::GREY_BLOCK;
+
+        for (int col = 0; col < (BOARD_WIDTH - 2); ++col) {
+            Entity entity = _registry.spawnEntity();
+
+            // Calculate position
+            float posX = static_cast<float>(col * (WIDTH_BLOCK * BLOCK_SCALE) + STARTING_POSITION_X);
+            float posY = static_cast<float>(lineY * (HEIGHT_BLOCK * BLOCK_SCALE) + STARTING_POSITION_Y);
+
+            // Add Position component
+            _registry.getComponents<Components::Position>().insertAt(entity, Components::Position{posX, posY});
+
+            // Add visual components
+            GameEngine::Math::Rectangle source_rect = {WIDTH_BLOCK * static_cast<int>(testColor), 0.0f, WIDTH_BLOCK,
+                                                       HEIGHT_BLOCK};
+            GameEngine::Math::Vector2 scale         = {BLOCK_SCALE, BLOCK_SCALE};
+            int layer                               = 1;
+
+            _registry.getComponents<Components::DrawableComponent>().insertAt(
+                entity, Components::DrawableComponent{source_rect, true, scale, layer});
+
+            _registry.getComponents<Components::SpriteComponent>().insertAt(
+                entity, Components::SpriteComponent{"BLOCK", layer});
+
+            // Add stationary movement (not moving)
+            _registry.getComponents<Components::Movement>().insertAt(entity, Components::Movement{0, 0});
+
+            _registry.getComponents<Components::Velocity>().insertAt(entity, Components::Velocity{});
+
+            _registry.getComponents<Components::Speed>().insertAt(entity, Components::Speed{0});
+
+            // Add collider
+            _registry.getComponents<Components::Collider>().insertAt(
+                entity, Components::Collider{static_cast<int>(WIDTH_BLOCK * scale.x),
+                                             static_cast<int>(HEIGHT_BLOCK * scale.y), "BLOCK"});
+
+            // Each block gets its own BlockId (they're not part of a tetromino)
+            _registry.getComponents<Components::BlockId>().insertAt(entity,
+                                                                    Components::BlockId(this->_currentBlockId++));
+        }
+
+        LOG_INFO("Created test line at Y position {}", lineY);
+    }
+
+    void DropingEntity::createAlmostCompleteLine(int lineY, int missingCol)
+    {
+        // Create a line with one missing block for testing
+        BlockColor testColor = BlockColor::BROWN_BLOCK;
+
+        for (int col = 0; col < (BOARD_WIDTH - 2); ++col) {
+            if (col == missingCol) {
+                continue; // Skip this column to leave a gap
+            }
+
+            Entity entity = _registry.spawnEntity();
+
+            // Calculate position
+            float posX = static_cast<float>(col * (WIDTH_BLOCK * BLOCK_SCALE) + STARTING_POSITION_X);
+            float posY = static_cast<float>(lineY * (HEIGHT_BLOCK * BLOCK_SCALE) + STARTING_POSITION_Y);
+
+            // Add Position component
+            _registry.getComponents<Components::Position>().insertAt(entity, Components::Position{posX, posY});
+
+            // Add visual components
+            GameEngine::Math::Rectangle source_rect = {WIDTH_BLOCK * static_cast<int>(testColor), 0.0f, WIDTH_BLOCK,
+                                                       HEIGHT_BLOCK};
+            GameEngine::Math::Vector2 scale         = {BLOCK_SCALE, BLOCK_SCALE};
+            int layer                               = 1;
+
+            _registry.getComponents<Components::DrawableComponent>().insertAt(
+                entity, Components::DrawableComponent{source_rect, true, scale, layer});
+
+            _registry.getComponents<Components::SpriteComponent>().insertAt(
+                entity, Components::SpriteComponent{"BLOCK", layer});
+
+            // Add stationary movement (not moving)
+            _registry.getComponents<Components::Movement>().insertAt(entity, Components::Movement{0, 0});
+
+            _registry.getComponents<Components::Velocity>().insertAt(entity, Components::Velocity{});
+
+            _registry.getComponents<Components::Speed>().insertAt(entity, Components::Speed{0});
+
+            // Add collider
+            _registry.getComponents<Components::Collider>().insertAt(
+                entity, Components::Collider{static_cast<int>(WIDTH_BLOCK * scale.x),
+                                             static_cast<int>(HEIGHT_BLOCK * scale.y), "BLOCK"});
+
+            // Each block gets its own BlockId
+            _registry.getComponents<Components::BlockId>().insertAt(entity,
+                                                                    Components::BlockId(this->_currentBlockId++));
+        }
+
+        LOG_INFO("Created almost complete line at Y position {} (missing column {})", lineY, missingCol);
     }
 
 } // namespace Tetris

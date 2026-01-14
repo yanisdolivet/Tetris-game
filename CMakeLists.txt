@@ -23,6 +23,8 @@ set(TETRIS_SOURCES
     src/events/EventSpawnBlock.cpp
     src/components/BlockId.cpp
     src/events/EventGameOver.cpp
+    src/events/EventLineComplete.cpp
+    src/systems/LineDeletion.cpp
 )
 
 include(FetchContent)

@@ -39,6 +39,10 @@ namespace Tetris
             void generateBlock(BlockColor color, int row, std::string blockType);
             void spawnBlock();
 
+            // Test functions for line deletion feature
+            void createTestLine(int lineY);
+            void createAlmostCompleteLine(int lineY, int missingCol);
+
         protected:
         private:
             std::vector<Entity> generateL(int row, SparseArray<Components::Position>& positions,
