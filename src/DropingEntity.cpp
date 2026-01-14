@@ -368,9 +368,7 @@ namespace Tetris
         std::string blockType               = blockTypes[std::rand() % blockTypes.size()];
 
         LOG_INFO("Spawning block of color {} at row {}", static_cast<int>(color), row);
-        // this->generateBlock(color, row, blockType);
-        this->createTestLine(17);          // Another complete line at row 17
-        this->createAlmostCompleteLine(12, 5);  // Almost complete line at row 17, missing column 5
+        this->generateBlock(color, row, blockType);
     }
 
     void DropingEntity::createTestLine(int lineY)
