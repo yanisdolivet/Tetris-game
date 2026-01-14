@@ -32,10 +32,12 @@
 #include <chrono>
 #include <memory>
 
+#include "BlockId.hpp"
+#include "BlockSpawner.hpp"
 #include "DropingEntity.hpp"
 #include "Logs.hpp"
 #include "MapDefinitions.hpp"
-#include "BlockSpawner.hpp"
+#include "TetrisEvent.hpp"
 
 namespace Tetris
 {
@@ -100,6 +102,20 @@ namespace Tetris
              * @return void
              */
             void _createBoard(Registry& registry);
+
+            /**
+             * @brief Register collision event
+             * @param engine
+             * @return void
+             */
+            void _registerEventCollision(GameEngine::Core& engine);
+
+            /**
+             * @brief Register spawn block event
+             * @param engine
+             * @return void
+             */
+            void _registerEventSpawnBlock(GameEngine::Core& engine);
 
         private:
             std::shared_ptr<Graphic::Raylib> _graphic;

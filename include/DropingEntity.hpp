@@ -7,12 +7,15 @@
 
 #pragma once
 
+#include <GameEngineEvents.hpp>
 #include <cstdlib>
 #include <random>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
+#include "BlockId.hpp"
+#include "Collider.hpp"
 #include "DrawableComponent.hpp"
 #include "DropingEntity.hpp"
 #include "Logs.hpp"
@@ -46,6 +49,8 @@ namespace Tetris
             std::vector<Entity> generateT(int row) const;
 
             Registry& _registry;
+
+            int _currentBlockId;
     };
 
 } // namespace Tetris

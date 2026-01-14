@@ -10,6 +10,7 @@
 #include "Registry.hpp"
 #include "Logs.hpp"
 #include <chrono>
+#include "TetrisEvent.hpp"
 
 class BlockSpawner {
     public:

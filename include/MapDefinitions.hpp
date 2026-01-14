@@ -14,7 +14,9 @@
 #define BOARD_WIDTH 10
 #define BOARD_HEIGHT 20
 
-#define STARTING_POSITION_X (160.0f + 6 * (WIDTH_BLOCK * 1.5f))
+#define BLOCK_SCALE 1.5f
+
+#define STARTING_POSITION_X (160.0f + 6 * (WIDTH_BLOCK * BLOCK_SCALE))
 #define STARTING_POSITION_Y 144.0f
 
 enum BlockColor

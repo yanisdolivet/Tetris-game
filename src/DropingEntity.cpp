@@ -28,9 +28,9 @@ namespace Tetris
         for (const auto& [colOffset, rowOffset] : positions) {
             Entity entity = _registry.spawnEntity();
             _registry.getComponents<Components::Position>().insertAt(
-                entity,
-                Components::Position{static_cast<float>((row + colOffset) * (WIDTH_BLOCK * 1.5f) + STARTING_POSITION_X),
-                                     static_cast<float>(rowOffset * (HEIGHT_BLOCK * 1.5f) + STARTING_POSITION_Y)});
+                entity, Components::Position{
+                            static_cast<float>((row + colOffset) * (WIDTH_BLOCK * BLOCK_SCALE) + STARTING_POSITION_X),
+                            static_cast<float>(rowOffset * (HEIGHT_BLOCK * BLOCK_SCALE) + STARTING_POSITION_Y)});
             entities.push_back(entity);
         }
         return entities;
@@ -46,9 +46,9 @@ namespace Tetris
         for (int i = 0; i < 4; ++i) {
             Entity entity = _registry.spawnEntity();
             _registry.getComponents<Components::Position>().insertAt(
-                entity,
-                Components::Position{static_cast<float>((row + (i % 2)) * (WIDTH_BLOCK * 1.5f) + STARTING_POSITION_X),
-                                     static_cast<float>((i / 2) * (HEIGHT_BLOCK * 1.5f) + STARTING_POSITION_Y)});
+                entity, Components::Position{
+                            static_cast<float>((row + (i % 2)) * (WIDTH_BLOCK * BLOCK_SCALE) + STARTING_POSITION_X),
+                            static_cast<float>((i / 2) * (HEIGHT_BLOCK * BLOCK_SCALE) + STARTING_POSITION_Y)});
             entities.push_back(entity);
         }
         return entities;
@@ -60,8 +60,9 @@ namespace Tetris
         for (int i = 0; i < 4; ++i) {
             Entity entity = _registry.spawnEntity();
             _registry.getComponents<Components::Position>().insertAt(
-                entity, Components::Position{static_cast<float>(row * (WIDTH_BLOCK * 1.5f) + STARTING_POSITION_X),
-                                             static_cast<float>(i * (HEIGHT_BLOCK * 1.5f) + STARTING_POSITION_Y)});
+                entity,
+                Components::Position{static_cast<float>(row * (WIDTH_BLOCK * BLOCK_SCALE) + STARTING_POSITION_X),
+                                     static_cast<float>(i * (HEIGHT_BLOCK * BLOCK_SCALE) + STARTING_POSITION_Y)});
             entities.push_back(entity);
         }
         return entities;
@@ -78,9 +79,9 @@ namespace Tetris
         for (const auto& [colOffset, rowOffset] : positions) {
             Entity entity = _registry.spawnEntity();
             _registry.getComponents<Components::Position>().insertAt(
-                entity,
-                Components::Position{static_cast<float>((row + colOffset) * (WIDTH_BLOCK * 1.5f) + STARTING_POSITION_X),
-                                     static_cast<float>(rowOffset * (HEIGHT_BLOCK * 1.5f) + STARTING_POSITION_Y)});
+                entity, Components::Position{
+                            static_cast<float>((row + colOffset) * (WIDTH_BLOCK * BLOCK_SCALE) + STARTING_POSITION_X),
+                            static_cast<float>(rowOffset * (HEIGHT_BLOCK * BLOCK_SCALE) + STARTING_POSITION_Y)});
             entities.push_back(entity);
         }
         return entities;
@@ -97,9 +98,9 @@ namespace Tetris
         for (const auto& [colOffset, rowOffset] : positions) {
             Entity entity = _registry.spawnEntity();
             _registry.getComponents<Components::Position>().insertAt(
-                entity,
-                Components::Position{static_cast<float>((row + colOffset) * (WIDTH_BLOCK * 1.5f) + STARTING_POSITION_X),
-                                     static_cast<float>(rowOffset * (HEIGHT_BLOCK * 1.5f) + STARTING_POSITION_Y)});
+                entity, Components::Position{
+                            static_cast<float>((row + colOffset) * (WIDTH_BLOCK * BLOCK_SCALE) + STARTING_POSITION_X),
+                            static_cast<float>(rowOffset * (HEIGHT_BLOCK * BLOCK_SCALE) + STARTING_POSITION_Y)});
             entities.push_back(entity);
         }
         return entities;
@@ -116,9 +117,9 @@ namespace Tetris
         for (const auto& [colOffset, rowOffset] : positions) {
             Entity entity = _registry.spawnEntity();
             _registry.getComponents<Components::Position>().insertAt(
-                entity,
-                Components::Position{static_cast<float>((row + colOffset) * (WIDTH_BLOCK * 1.5f) + STARTING_POSITION_X),
-                                     static_cast<float>(rowOffset * (HEIGHT_BLOCK * 1.5f) + STARTING_POSITION_Y)});
+                entity, Components::Position{
+                            static_cast<float>((row + colOffset) * (WIDTH_BLOCK * BLOCK_SCALE) + STARTING_POSITION_X),
+                            static_cast<float>(rowOffset * (HEIGHT_BLOCK * BLOCK_SCALE) + STARTING_POSITION_Y)});
             entities.push_back(entity);
         }
         return entities;
@@ -135,9 +136,9 @@ namespace Tetris
         for (const auto& [colOffset, rowOffset] : positions) {
             Entity entity = _registry.spawnEntity();
             _registry.getComponents<Components::Position>().insertAt(
-                entity,
-                Components::Position{static_cast<float>((row + colOffset) * (WIDTH_BLOCK * 1.5f) + STARTING_POSITION_X),
-                                     static_cast<float>(rowOffset * (HEIGHT_BLOCK * 1.5f) + STARTING_POSITION_Y)});
+                entity, Components::Position{
+                            static_cast<float>((row + colOffset) * (WIDTH_BLOCK * BLOCK_SCALE) + STARTING_POSITION_X),
+                            static_cast<float>(rowOffset * (HEIGHT_BLOCK * BLOCK_SCALE) + STARTING_POSITION_Y)});
             entities.push_back(entity);
         }
         return entities;
@@ -155,10 +156,11 @@ namespace Tetris
         for (const auto& [key, func] : handlers) {
             if (key == blockType) {
                 std::vector<Entity> entities = (this->*func)(row);
+                int block_id = this->_currentBlockId;
                 for (auto& entity : entities) {
                     GameEngine::Math::Rectangle source_rect = {WIDTH_BLOCK * static_cast<int>(color), 0.0f, WIDTH_BLOCK,
                                                                HEIGHT_BLOCK};
-                    GameEngine::Math::Vector2 scale         = {1.5f, 1.5f};
+                    GameEngine::Math::Vector2 scale         = {BLOCK_SCALE, BLOCK_SCALE};
                     int layer                               = 1;
                     _registry.getComponents<Components::DrawableComponent>().insertAt(
                         entity, Components::DrawableComponent{source_rect, true, scale, layer});
@@ -171,7 +173,21 @@ namespace Tetris
                     _registry.getComponents<Components::Velocity>().insertAt(entity, Components::Velocity{});
 
                     _registry.getComponents<Components::Speed>().insertAt(entity, Components::Speed{1});
+
+                    _registry.getComponents<Components::Collider>().insertAt(
+                        entity, Components::Collider{static_cast<int>(WIDTH_BLOCK * scale.x),
+                                                     static_cast<int>(HEIGHT_BLOCK * scale.y), "BLOCK"});
+
+                    _registry.getComponents<Components::Collider>().insertAt(
+                        entity, Components::Collider{static_cast<int>(WIDTH_BLOCK * scale.x),
+                                                     static_cast<int>(HEIGHT_BLOCK * scale.y), "BLOCK"});
+
+                    LOG_INFO("Assigned Block ID {}", block_id);
+                    LOG_INFO("For entity {}", static_cast<int>(entity));
+                    _registry.getComponents<Components::BlockId>().insertAt(entity, Components::BlockId(block_id));
                 }
+                this->_currentBlockId++;
+                break;
             }
         }
     }

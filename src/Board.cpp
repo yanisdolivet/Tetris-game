@@ -18,7 +18,7 @@ namespace Tetris
                 // Create wall enttity
                 auto entity                             = registry.spawnEntity();
                 GameEngine::Math::Rectangle source_rect = {160.0f, 0.0f, WIDTH_BLOCK, HEIGHT_BLOCK};
-                GameEngine::Math::Vector2 scale         = {1.5f, 1.5f};
+                GameEngine::Math::Vector2 scale         = {BLOCK_SCALE, BLOCK_SCALE};
                 int layer                               = 0;
 
                 registry.getComponents<Components::DrawableComponent>().insertAt(
@@ -30,6 +30,9 @@ namespace Tetris
                 registry.getComponents<Components::Position>().insertAt(
                     entity, Components::Position{static_cast<float>(x * (WIDTH_BLOCK * scale.x) + offset_x),
                                                  static_cast<float>(row * (HEIGHT_BLOCK * scale.y) + offset_y)});
+
+                registry.getComponents<Components::Collider>().insertAt(
+                    entity, Components::Collider{static_cast<int>(WIDTH_BLOCK * scale.x), static_cast<int>(HEIGHT_BLOCK * scale.y), "WALL"});
             }
             row = BOARD_HEIGHT - 1;
         }
@@ -42,7 +45,7 @@ namespace Tetris
                 // Create wall enttity
                 auto entity                             = registry.spawnEntity();
                 GameEngine::Math::Rectangle source_rect = {160.0f, 0.0f, WIDTH_BLOCK, HEIGHT_BLOCK};
-                GameEngine::Math::Vector2 scale         = {1.5f, 1.5f};
+                GameEngine::Math::Vector2 scale         = {BLOCK_SCALE, BLOCK_SCALE};
                 int layer                               = 0;
 
                 registry.getComponents<Components::DrawableComponent>().insertAt(
@@ -54,6 +57,9 @@ namespace Tetris
                 registry.getComponents<Components::Position>().insertAt(
                     entity, Components::Position{static_cast<float>(x * (WIDTH_BLOCK * scale.x) + this->_offset_x),
                                                  static_cast<float>(y * (HEIGHT_BLOCK * scale.y) + this->_offset_y)});
+
+                registry.getComponents<Components::Collider>().insertAt(
+                    entity, Components::Collider{static_cast<int>(WIDTH_BLOCK * scale.x), static_cast<int>(HEIGHT_BLOCK * scale.y), "WALL"});
             }
         }
         createFirstAndLastRow(registry, this->_offset_x, this->_offset_y);

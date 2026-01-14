@@ -60,6 +60,8 @@ namespace Tetris
         this->_engine.getRegistry().registerComponent<Components::SpriteComponent>();
         this->_engine.getRegistry().registerComponent<Components::AnimationComponent>();
         this->_engine.getRegistry().registerComponent<Components::Parallax>();
+        this->_engine.getRegistry().registerComponent<Components::BlockId>();
+
         LOG_INFO("Initializing game components");
     }
 
@@ -102,6 +104,8 @@ namespace Tetris
     void Game::_initSubscriptions()
     {
         Common::initEngineSubscriptions(this->_engine);
+        this->_registerEventCollision(this->_engine);
+        this->_registerEventSpawnBlock(this->_engine);
         LOG_INFO("Initializing event subscriptions");
     }
 
@@ -136,8 +140,8 @@ namespace Tetris
         };
         this->_resource_manager.get()->loadTexturesFromMap(sprites);
 
-        this->_offset_x = this->_graphic->getWindowSize().first / 2 - (BOARD_WIDTH * (WIDTH_BLOCK * 1.5f)) / 2;
-        this->_offset_y = this->_graphic->getWindowSize().second - (BOARD_HEIGHT * (HEIGHT_BLOCK * 1.5f));
+        this->_offset_x = this->_graphic->getWindowSize().first / 2 - (BOARD_WIDTH * (WIDTH_BLOCK * BLOCK_SCALE)) / 2;
+        this->_offset_y = this->_graphic->getWindowSize().second - (BOARD_HEIGHT * (HEIGHT_BLOCK * BLOCK_SCALE));
 
         LOG_INFO("Initializing graphics");
     }
