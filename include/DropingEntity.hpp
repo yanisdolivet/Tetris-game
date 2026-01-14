@@ -27,6 +27,7 @@
 #include "SpriteComponent.hpp"
 #include "Velocity.hpp"
 #include "TetrisEvent.hpp"
+#include "Tetromino.hpp"
 
 namespace Tetris
 {

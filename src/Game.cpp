@@ -61,6 +61,7 @@ namespace Tetris
         this->_engine.getRegistry().registerComponent<Components::AnimationComponent>();
         this->_engine.getRegistry().registerComponent<Components::Parallax>();
         this->_engine.getRegistry().registerComponent<Components::BlockId>();
+        this->_engine.getRegistry().registerComponent<Components::Tetromino>();
 
         LOG_INFO("Initializing game components");
     }

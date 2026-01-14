@@ -35,4 +35,15 @@ enum BlockColor
     PASTEL_GREEN_BLOCK
 };
 
+enum class TetrominoType
+{
+    I,
+    J,
+    L,
+    O,
+    S,
+    T,
+    Z
+};
+
 #endif /* !MAPDEFINITIONS_HPP_ */

@@ -39,6 +39,7 @@
 #include "Logs.hpp"
 #include "MapDefinitions.hpp"
 #include "TetrisEvent.hpp"
+#include "Tetromino.hpp"
 namespace Tetris
 {
     class Game
