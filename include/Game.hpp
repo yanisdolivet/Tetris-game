@@ -146,6 +146,13 @@ namespace Tetris
              */
             void _registerEventRotateClockwise(GameEngine::Core& engine);
 
+            /**
+             * @brief Register move event
+             * @param engine
+             * @return void
+             */
+            void _registerEventMove(GameEngine::Core& engine);
+
         private:
             std::shared_ptr<Graphic::Raylib> _graphic;
             GameEngine::Core _engine;

@@ -329,3 +329,146 @@ void Tetris::Game::_registerEventRotateClockwise(GameEngine::Core& engine)
         LOG_TRACE("Rotation Failed");
     });
 }
+
+void Tetris::Game::_registerEventMove(GameEngine::Core& engine)
+{
+    engine.getRegistry().subscribe<EventLeft>([this](const EventLeft& event) {
+        Registry& registry = this->_engine.getRegistry();
+        auto& positions    = registry.getComponents<Components::Position>();
+        auto& blockIds     = registry.getComponents<Components::BlockId>();
+        auto& colliders    = registry.getComponents<Components::Collider>();
+
+        int maxId = -1;
+        for (auto [idx, id] : IndexedZipper(blockIds)) {
+            if (id.getBlockId() > maxId)
+                maxId = id.getBlockId();
+        }
+        if (maxId == -1)
+            return;
+
+        std::vector<Entity> pieceEntities;
+
+        for (auto [idx, id] : IndexedZipper(blockIds)) {
+            if (id.getBlockId() == maxId) {
+                pieceEntities.push_back(registry.entityFromIndex(idx));
+            }
+        }
+
+        if (pieceEntities.empty())
+            return;
+
+        float moveX = -WIDTH_BLOCK * BLOCK_SCALE;
+
+        // Check if move is possible
+        bool possible = true;
+        for (Entity e : pieceEntities) {
+            auto& pos = positions[e];
+            float targetX = pos.value().getX() + moveX;
+
+            // Boundary Check
+            if (targetX < (this->_offset_x - (WIDTH_BLOCK * BLOCK_SCALE))) {
+                possible = false;
+                break;
+            }
+
+            // Collision with Other Blocks
+            for (auto [cIdx, cPos, cCol] : IndexedZipper(positions, colliders)) {
+                bool isSelf = false;
+                for (Entity active : pieceEntities)
+                    if (cIdx == static_cast<size_t>(active))
+                        isSelf = true;
+                if (isSelf)
+                    continue;
+
+                // Simple AABB or Point check
+                if (std::abs(cPos.getX() - targetX) < (WIDTH_BLOCK * BLOCK_SCALE) / 2 &&
+                    std::abs(cPos.getY() - pos.value().getY()) < (HEIGHT_BLOCK * BLOCK_SCALE) / 2) {
+                    possible = false;
+                    break;
+                }
+            }
+
+            if (!possible)
+                break;
+        }
+
+        if (possible) {
+            // Apply Move
+            for (Entity e : pieceEntities) {
+                auto& pos = registry.getSpecificComponent<Components::Position>(e);
+                pos.setX(pos.getX() + moveX);
+            }
+            LOG_INFO("Moved Piece Left");
+        }
+    });
+
+    engine.getRegistry().subscribe<EventRight>([this](const EventRight& event) {
+        Registry& registry = this->_engine.getRegistry();
+        auto& positions    = registry.getComponents<Components::Position>();
+        auto& blockIds     = registry.getComponents<Components::BlockId>();
+        auto& colliders    = registry.getComponents<Components::Collider>();
+
+        int maxId = -1;
+        for (auto [idx, id] : IndexedZipper(blockIds)) {
+            if (id.getBlockId() > maxId)
+                maxId = id.getBlockId();
+        }
+        if (maxId == -1)
+            return;
+
+        std::vector<Entity> pieceEntities;
+
+        for (auto [idx, id] : IndexedZipper(blockIds)) {
+            if (id.getBlockId() == maxId) {
+                pieceEntities.push_back(registry.entityFromIndex(idx));
+            }
+        }
+
+        if (pieceEntities.empty())
+            return;
+
+        float moveX = WIDTH_BLOCK * BLOCK_SCALE;
+
+        // Check if move is possible
+        bool possible = true;
+        for (Entity e : pieceEntities) {
+            auto& pos = positions[e];
+            float targetX = pos.value().getX() + moveX;
+
+            // Boundary Check
+            if (targetX > (this->_offset_x + (BOARD_WIDTH * (WIDTH_BLOCK * BLOCK_SCALE)))) {
+                possible = false;
+                break;
+            }
+
+            // Collision with Other Blocks
+            for (auto [cIdx, cPos, cCol] : IndexedZipper(positions, colliders)) {
+                bool isSelf = false;
+                for (Entity active : pieceEntities)
+                    if (cIdx == static_cast<size_t>(active))
+                        isSelf = true;
+                if (isSelf)
+                    continue;
+
+                // Simple AABB or Point check
+                if (std::abs(cPos.getX() - targetX) < (WIDTH_BLOCK * BLOCK_SCALE) / 2 &&
+                    std::abs(cPos.getY() - pos.value().getY()) < (HEIGHT_BLOCK * BLOCK_SCALE) / 2) {
+                    possible = false;
+                    break;
+                }
+            }
+
+            if (!possible)
+                break;
+        }
+
+        if (possible) {
+            // Apply Move
+            for (Entity e : pieceEntities) {
+                auto& pos = registry.getSpecificComponent<Components::Position>(e);
+                pos.setX(pos.getX() + moveX);
+            }
+            LOG_INFO("Moved Piece Left");
+        }
+    });
+}

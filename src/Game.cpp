@@ -114,6 +114,7 @@ namespace Tetris
         this->_registerEventLineComplete(this->_engine);
         this->_registerEventRotateCntClockwise(this->_engine);
         this->_registerEventRotateClockwise(this->_engine);
+        this->_registerEventMove(this->_engine);
         LOG_INFO("Initializing event subscriptions");
     }
 
@@ -122,7 +123,8 @@ namespace Tetris
         const std::unordered_map<std::string, ActionBinding> actionBindings = getActionBindings();
         const std::vector<std::pair<std::string, std::string>> keyNames = {
            {"KEY_ESCAPE", "ExitGame"},
-           {"KEY_LEFT", "MoveLeft"}
+           {"KEY_LEFT", "MoveLeft"},
+            {"KEY_RIGHT", "MoveRight"}
         };
 
         for (const auto& keyName : keyNames) {
