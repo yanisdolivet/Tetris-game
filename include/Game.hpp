@@ -35,10 +35,10 @@
 #include "BlockId.hpp"
 #include "BlockSpawner.hpp"
 #include "DropingEntity.hpp"
+#include "LineDeletion.hpp"
 #include "Logs.hpp"
 #include "MapDefinitions.hpp"
 #include "TetrisEvent.hpp"
-
 namespace Tetris
 {
     class Game
@@ -116,6 +116,20 @@ namespace Tetris
              * @return void
              */
             void _registerEventSpawnBlock(GameEngine::Core& engine);
+
+            /**
+             * @brief Register line complete event
+             * @param engine
+             * @return void
+             */
+            void _registerEventGameOver(GameEngine::Core& engine);
+
+            /**
+             * @brief Register line complete event
+             * @param engine
+             * @return void
+             */
+            void _registerEventLineComplete(GameEngine::Core& engine);
 
         private:
             std::shared_ptr<Graphic::Raylib> _graphic;

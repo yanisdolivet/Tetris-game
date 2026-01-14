@@ -26,6 +26,7 @@
 #include "Speed.hpp"
 #include "SpriteComponent.hpp"
 #include "Velocity.hpp"
+#include "TetrisEvent.hpp"
 
 namespace Tetris
 {
@@ -38,15 +39,33 @@ namespace Tetris
             void generateBlock(BlockColor color, int row, std::string blockType);
             void spawnBlock();
 
+            // Test functions for line deletion feature
+            void createTestLine(int lineY);
+            void createAlmostCompleteLine(int lineY, int missingCol);
+
         protected:
         private:
-            std::vector<Entity> generateL(int row) const;
-            std::vector<Entity> generateO(int row) const;
-            std::vector<Entity> generateI(int row) const;
-            std::vector<Entity> generateS(int row) const;
-            std::vector<Entity> generateZ(int row) const;
-            std::vector<Entity> generateJ(int row) const;
-            std::vector<Entity> generateT(int row) const;
+            std::vector<Entity> generateL(int row, SparseArray<Components::Position>& positions,
+                                          SparseArray<Components::Movement>& movements,
+                                          SparseArray<Components::BlockId>& blockids) const;
+            std::vector<Entity> generateO(int row, SparseArray<Components::Position>& positions,
+                                          SparseArray<Components::Movement>& movements,
+                                          SparseArray<Components::BlockId>& blockids) const;
+            std::vector<Entity> generateI(int row, SparseArray<Components::Position>& positions,
+                                          SparseArray<Components::Movement>& movements,
+                                          SparseArray<Components::BlockId>& blockids) const;
+            std::vector<Entity> generateS(int row, SparseArray<Components::Position>& positions,
+                                          SparseArray<Components::Movement>& movements,
+                                          SparseArray<Components::BlockId>& blockids) const;
+            std::vector<Entity> generateZ(int row, SparseArray<Components::Position>& positions,
+                                          SparseArray<Components::Movement>& movements,
+                                          SparseArray<Components::BlockId>& blockids) const;
+            std::vector<Entity> generateJ(int row, SparseArray<Components::Position>& positions,
+                                          SparseArray<Components::Movement>& movements,
+                                          SparseArray<Components::BlockId>& blockids) const;
+            std::vector<Entity> generateT(int row, SparseArray<Components::Position>& positions,
+                                          SparseArray<Components::Movement>& movements,
+                                          SparseArray<Components::BlockId>& blockids) const;
 
             Registry& _registry;
 

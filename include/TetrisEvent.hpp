@@ -7,6 +7,18 @@
 
 #pragma once
 
+#include "Entity.hpp"
+
 struct EventSpawnBlock
 {
+};
+
+struct EventGameOver
+{
+};
+
+struct EventLineComplete
+{
+    int lineIndex;
+    std::vector<Entity> entitiesToDelete;
 };
