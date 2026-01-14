@@ -106,6 +106,7 @@ namespace Tetris
         Common::initEngineSubscriptions(this->_engine);
         this->_registerEventCollision(this->_engine);
         this->_registerEventSpawnBlock(this->_engine);
+        this->_registerEventGameOver(this->_engine);
         LOG_INFO("Initializing event subscriptions");
     }
 

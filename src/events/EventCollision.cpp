@@ -29,7 +29,7 @@ void Tetris::Game::_registerEventCollision(GameEngine::Core& engine)
                 return;
             int entity_block = registry.getSpecificComponent<Components::BlockId>(entity).getBlockId();
 
-            LOG_INFO("Colliding Block ID: {}", entity_block);
+            // LOG_INFO("Colliding Block ID: {}", entity_block);
 
             // Get all BlockId components
             for (auto&& [idxA, blid] : IndexedZipper(blockIds)) {
@@ -44,7 +44,7 @@ void Tetris::Game::_registerEventCollision(GameEngine::Core& engine)
                     Entity other_entity = registry.entityFromIndex(idxA);
                     if (registry.entity_has_component<Components::Movement>(other_entity)) {
                         registry.getSpecificComponent<Components::Movement>(other_entity).setVertical(0);
-                        LOG_INFO("Block entity {} collided and vertical movement set to 0", event.entityA);
+                        // LOG_INFO("Block entity {} collided and vertical movement set to 0", event.entityA);
                     }
                 }
             }
@@ -52,14 +52,13 @@ void Tetris::Game::_registerEventCollision(GameEngine::Core& engine)
         if (entityB == "BLOCK") {
             Entity entity = registry.entityFromIndex(event.entityB);
             registry.getSpecificComponent<Components::Movement>(entity).setVertical(0);
-            // LOG_INFO("Block entity {} collided and vertical movement set to 0", event.entityB);
 
             // Get the block ID of the colliding block
             if (!registry.entity_has_component<Components::BlockId>(entity))
                 return;
             int entity_block = registry.getSpecificComponent<Components::BlockId>(entity).getBlockId();
 
-            LOG_INFO("Colliding Block ID: {}", entity_block);
+            // LOG_INFO("Colliding Block ID: {}", entity_block);
 
             // Get all BlockId components
             for (auto&& [idxA, blid] : IndexedZipper(blockIds)) {
@@ -73,7 +72,7 @@ void Tetris::Game::_registerEventCollision(GameEngine::Core& engine)
                     Entity other_entity = registry.entityFromIndex(idxA);
                     if (registry.entity_has_component<Components::Movement>(other_entity)) {
                         registry.getSpecificComponent<Components::Movement>(other_entity).setVertical(0);
-                        LOG_INFO("Block entity {} collided and vertical movement set to 0", event.entityB);
+                        // LOG_INFO("Block entity {} collided and vertical movement set to 0", event.entityB);
                     }
                 }
             }

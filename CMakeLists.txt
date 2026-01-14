@@ -22,6 +22,7 @@ set(TETRIS_SOURCES
     src/events/EventCollision.cpp
     src/events/EventSpawnBlock.cpp
     src/components/BlockId.cpp
+    src/events/EventGameOver.cpp
 )
 
 include(FetchContent)

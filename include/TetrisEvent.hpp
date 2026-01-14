@@ -10,3 +10,7 @@
 struct EventSpawnBlock
 {
 };
+
+struct EventGameOver
+{
+};
