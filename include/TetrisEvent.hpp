@@ -27,3 +27,8 @@ struct EventRotateCntClockwise
 {
     bool pressed;
 };
+
+struct EventRotateClockwise
+{
+    bool pressed;
+};

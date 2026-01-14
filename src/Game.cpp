@@ -113,29 +113,35 @@ namespace Tetris
         this->_registerEventGameOver(this->_engine);
         this->_registerEventLineComplete(this->_engine);
         this->_registerEventRotateCntClockwise(this->_engine);
+        this->_registerEventRotateClockwise(this->_engine);
         LOG_INFO("Initializing event subscriptions");
     }
 
     void Game::_initKeybinds()
     {
         const std::unordered_map<std::string, ActionBinding> actionBindings = getActionBindings();
+        const std::vector<std::pair<std::string, std::string>> keyNames = {
+           {"KEY_ESCAPE", "ExitGame"},
+           {"KEY_LEFT", "MoveLeft"}
+        };
 
-        int key = this->_graphic->stringtoKeyCode("KEY_ESCAPE");
+        for (const auto& keyName : keyNames) {
+            int key = this->_graphic->stringtoKeyCode(keyName.first);
 
-        auto it = actionBindings.find("ExitGame");
-        if (it == actionBindings.end())
-            throw std::runtime_error("Unknown action: ExitGame");
-        const ActionBinding& action = it->second;
+            auto it = actionBindings.find(keyName.second);
+            if (it == actionBindings.end())
+                throw std::runtime_error("Unknown action: " + keyName.second);
+            const ActionBinding& action = it->second;
 
-        if (action.onPress) {
-            LOG_INFO("Adding action to key {}", key);
-            this->_graphic->addKeyMapping(key, action.onPress);
+            if (action.onPress) {
+                LOG_INFO("Adding action to key {} ({})", key, keyName.second);
+                this->_graphic->addKeyMapping(key, action.onPress);
+            }
+
+            if (action.onRelease) {
+                this->_graphic->addKeyReleasedMapping(key, action.onRelease);
+            }
         }
-
-        if (action.onRelease) {
-            this->_graphic->addKeyReleasedMapping(key, action.onRelease);
-        }
-
 
         int keyZ = this->_graphic->stringtoKeyCode("KEY_W");
         const ActionBinding& Z_action_binding = ActionBinding{
@@ -153,6 +159,24 @@ namespace Tetris
 
         if (Z_action_binding.onRelease) {
             this->_graphic->addKeyReleasedMapping(keyZ, Z_action_binding.onRelease);
+        }
+
+        int keyA = this->_graphic->stringtoKeyCode("KEY_A");
+        const ActionBinding& A_action_binding = ActionBinding{
+            .onPress   = [](Registry& registry) {
+                registry.publish(EventRotateClockwise{true});
+            },
+            .onRelease = [](Registry& registry) {
+                registry.publish(EventRotateClockwise{false});
+            }
+        };
+        if (A_action_binding.onPress) {
+            LOG_INFO("Adding action to keyA {}", keyA);
+            this->_graphic->addKeyMapping(keyA, A_action_binding.onPress);
+        }
+
+        if (A_action_binding.onRelease) {
+            this->_graphic->addKeyReleasedMapping(keyA, A_action_binding.onRelease);
         }
 
         LOG_INFO("Initializing keybinds");
