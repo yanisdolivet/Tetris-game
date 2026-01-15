@@ -31,6 +31,7 @@
 #include <Velocity.hpp>
 #include <chrono>
 #include <memory>
+#include <InputPressedSystem.hpp>
 
 #include "BlockId.hpp"
 #include "BlockSpawner.hpp"
@@ -126,13 +127,6 @@ namespace Tetris
             void _registerEventGameOver(GameEngine::Core& engine);
 
             /**
-             * @brief Register line complete event
-             * @param engine
-             * @return void
-             */
-            void _registerEventLineComplete(GameEngine::Core& engine);
-
-            /**
              * @brief Register rotate counter-clockwise event
              * @param engine
              * @return void
@@ -152,6 +146,13 @@ namespace Tetris
              * @return void
              */
             void _registerEventMove(GameEngine::Core& engine);
+
+            /**
+             * @brief Register line complete event
+             * @param engine
+             * @return void
+             */
+            void _registerEventLineComplete(GameEngine::Core& engine);
 
         private:
             std::shared_ptr<Graphic::Raylib> _graphic;

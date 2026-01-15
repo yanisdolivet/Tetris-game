@@ -23,9 +23,9 @@ set(TETRIS_SOURCES
     src/events/EventSpawnBlock.cpp
     src/components/BlockId.cpp
     src/events/EventGameOver.cpp
-    src/events/EventLineComplete.cpp
     src/systems/LineDeletion.cpp
     src/events/EventInput.cpp
+    src/events/EventLineComplete.cpp
     src/components/Tetromino.cpp
 )
 
