@@ -14,4 +14,3 @@ void Tetris::Game::_registerEventSpawnBlock(GameEngine::Core& engine)
         LOG_INFO("Spawned new block");
     });
 }
-

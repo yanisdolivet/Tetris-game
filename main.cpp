@@ -5,12 +5,12 @@
 ** main
 */
 
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
 
 #include "Game.hpp"
 #include "Logs.hpp"
-#include <cstdlib>
-#include <ctime>
 
 #define LOGSFOLDER "tetris_logs"
 

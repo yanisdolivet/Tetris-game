@@ -32,7 +32,8 @@ namespace Tetris
                                                  static_cast<float>(row * (HEIGHT_BLOCK * scale.y) + offset_y)});
 
                 registry.getComponents<Components::Collider>().insertAt(
-                    entity, Components::Collider{static_cast<int>(WIDTH_BLOCK * scale.x), static_cast<int>(HEIGHT_BLOCK * scale.y), "WALL"});
+                    entity, Components::Collider{static_cast<int>(WIDTH_BLOCK * scale.x),
+                                                 static_cast<int>(HEIGHT_BLOCK * scale.y), "WALL"});
             }
             row = BOARD_HEIGHT - 1;
         }
@@ -59,7 +60,8 @@ namespace Tetris
                                                  static_cast<float>(y * (HEIGHT_BLOCK * scale.y) + this->_offset_y)});
 
                 registry.getComponents<Components::Collider>().insertAt(
-                    entity, Components::Collider{static_cast<int>(WIDTH_BLOCK * scale.x), static_cast<int>(HEIGHT_BLOCK * scale.y), "WALL"});
+                    entity, Components::Collider{static_cast<int>(WIDTH_BLOCK * scale.x),
+                                                 static_cast<int>(HEIGHT_BLOCK * scale.y), "WALL"});
             }
         }
         createFirstAndLastRow(registry, this->_offset_x, this->_offset_y);

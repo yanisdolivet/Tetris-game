@@ -75,9 +75,8 @@ namespace Tetris
                        Components::Parallax>(AnimationSystem());
 
         // Rendering System
-        this->_engine.getRegistry()
-            .addSystem<Components::Position, Components::DrawableComponent>(
-                RenderSystem(this->_graphic));
+        this->_engine.getRegistry().addSystem<Components::Position, Components::DrawableComponent>(
+            RenderSystem(this->_graphic));
 
         // Input System
         this->_engine.getRegistry().addSystem<>(

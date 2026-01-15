@@ -7,12 +7,14 @@
 
 #pragma once
 
-#include "Registry.hpp"
-#include "Logs.hpp"
 #include <chrono>
+
+#include "Logs.hpp"
+#include "Registry.hpp"
 #include "TetrisEvent.hpp"
 
-class BlockSpawner {
+class BlockSpawner
+{
     public:
         void operator()(Registry& registry, double deltaTime) const;
 
