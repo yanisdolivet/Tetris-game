@@ -44,4 +44,4 @@ namespace Components
         _localX = x;
         _localY = y;
     }
-}
+} // namespace Components

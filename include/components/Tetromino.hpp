@@ -32,4 +32,4 @@ namespace Components
             int _localX;
             int _localY;
     };
-}
+} // namespace Components

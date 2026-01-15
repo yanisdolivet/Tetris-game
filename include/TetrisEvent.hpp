@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "Entity.hpp"
 
 struct EventSpawnBlock
@@ -19,16 +21,16 @@ struct EventGameOver
 
 struct EventLineComplete
 {
-    int lineIndex;
-    std::vector<Entity> entitiesToDelete;
+        int lineIndex;
+        std::vector<Entity> entitiesToDelete;
 };
 
 struct EventRotateCntClockwise
 {
-    bool pressed;
+        bool pressed;
 };
 
 struct EventRotateClockwise
 {
-    bool pressed;
+        bool pressed;
 };

@@ -362,7 +362,7 @@ void Tetris::Game::_registerEventMove(GameEngine::Core& engine)
         // Check if move is possible
         bool possible = true;
         for (Entity e : pieceEntities) {
-            auto& pos = positions[e];
+            auto& pos     = positions[e];
             float targetX = pos.value().getX() + moveX;
 
             // Boundary Check
@@ -432,7 +432,7 @@ void Tetris::Game::_registerEventMove(GameEngine::Core& engine)
         // Check if move is possible
         bool possible = true;
         for (Entity e : pieceEntities) {
-            auto& pos = positions[e];
+            auto& pos     = positions[e];
             float targetX = pos.value().getX() + moveX;
 
             // Boundary Check

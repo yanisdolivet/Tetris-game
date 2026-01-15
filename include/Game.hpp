@@ -16,6 +16,7 @@
 #include <EngineSubscriptions.hpp>
 #include <GameEngineEvents.hpp>
 #include <InitActionInput.hpp>
+#include <InputPressedSystem.hpp>
 #include <InputReleasedSystem.hpp>
 #include <InputSystem.hpp>
 #include <Movement.hpp>
@@ -31,7 +32,6 @@
 #include <Velocity.hpp>
 #include <chrono>
 #include <memory>
-#include <InputPressedSystem.hpp>
 
 #include "BlockId.hpp"
 #include "BlockSpawner.hpp"
