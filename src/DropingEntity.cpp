@@ -142,7 +142,7 @@ namespace Tetris
             int pivotX = 1;
             int pivotY = 1;
             _registry.getComponents<Components::Tetromino>().insertAt(
-                entity, Components::Tetromino(TetrominoType::I, 0, pivotX, pivotY));
+                entity, Components::Tetromino(TetrominoType::I, 0, pivotX, i - pivotY));
 
             entities.push_back(entity);
         }
@@ -286,7 +286,7 @@ namespace Tetris
             int pivotX = 1;
             int pivotY = 1;
             _registry.getComponents<Components::Tetromino>().insertAt(
-                entity, Components::Tetromino(TetrominoType::T, 0, colOffset - pivotX, rowOffset - pivotY));
+                entity, Components::Tetromino(TetrominoType::J, 0, colOffset - pivotX, rowOffset - pivotY));
 
             entities.push_back(entity);
         }
@@ -377,10 +377,6 @@ namespace Tetris
                     _registry.getComponents<Components::Velocity>().insertAt(entity, Components::Velocity{});
 
                     _registry.getComponents<Components::Speed>().insertAt(entity, Components::Speed{1});
-
-                    _registry.getComponents<Components::Collider>().insertAt(
-                        entity, Components::Collider{static_cast<int>(WIDTH_BLOCK * scale.x),
-                                                     static_cast<int>(HEIGHT_BLOCK * scale.y), "BLOCK"});
 
                     _registry.getComponents<Components::Collider>().insertAt(
                         entity, Components::Collider{static_cast<int>(WIDTH_BLOCK * scale.x),

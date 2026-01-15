@@ -468,7 +468,7 @@ void Tetris::Game::_registerEventMove(GameEngine::Core& engine)
                 auto& pos = registry.getSpecificComponent<Components::Position>(e);
                 pos.setX(pos.getX() + moveX);
             }
-            LOG_INFO("Moved Piece Left");
+            LOG_INFO("Moved Piece Right");
         }
     });
 }
