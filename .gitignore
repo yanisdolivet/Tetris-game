@@ -43,6 +43,7 @@
 *.app
 format.sh
 *.py
+tetris
 
 ### CMake ###
 CMakeLists.txt.user
@@ -74,6 +75,6 @@ r-type_client
 
 ### Debug ###
 vgcore.*
-logs/
 *.bak
+tetris_logs
 
