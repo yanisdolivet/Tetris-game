@@ -16,6 +16,7 @@
 #include <EngineSubscriptions.hpp>
 #include <GameEngineEvents.hpp>
 #include <InitActionInput.hpp>
+#include <InputPressedSystem.hpp>
 #include <InputReleasedSystem.hpp>
 #include <InputSystem.hpp>
 #include <Movement.hpp>
@@ -39,6 +40,7 @@
 #include "Logs.hpp"
 #include "MapDefinitions.hpp"
 #include "TetrisEvent.hpp"
+#include "Tetromino.hpp"
 namespace Tetris
 {
     class Game
@@ -123,6 +125,27 @@ namespace Tetris
              * @return void
              */
             void _registerEventGameOver(GameEngine::Core& engine);
+
+            /**
+             * @brief Register rotate counter-clockwise event
+             * @param engine
+             * @return void
+             */
+            void _registerEventRotateCntClockwise(GameEngine::Core& engine);
+
+            /**
+             * @brief Register rotate clockwise event
+             * @param engine
+             * @return void
+             */
+            void _registerEventRotateClockwise(GameEngine::Core& engine);
+
+            /**
+             * @brief Register move event
+             * @param engine
+             * @return void
+             */
+            void _registerEventMove(GameEngine::Core& engine);
 
             /**
              * @brief Register line complete event

@@ -54,6 +54,12 @@ namespace Tetris
             Entity entity = _registry.spawnEntity();
             _registry.getComponents<Components::Position>().insertAt(entity,
                                                                      Components::Position{sppos.first, sppos.second});
+
+            int pivotX = 1;
+            int pivotY = 0;
+            _registry.getComponents<Components::Tetromino>().insertAt(
+                entity, Components::Tetromino(TetrominoType::L, 0, colOffset - pivotX, rowOffset - pivotY));
+
             entities.push_back(entity);
         }
         return entities;
@@ -132,6 +138,12 @@ namespace Tetris
             Entity entity = _registry.spawnEntity();
             _registry.getComponents<Components::Position>().insertAt(entity,
                                                                      Components::Position{sppos.first, sppos.second});
+
+            int pivotX = 1;
+            int pivotY = 1;
+            _registry.getComponents<Components::Tetromino>().insertAt(
+                entity, Components::Tetromino(TetrominoType::I, 0, pivotX, pivotY));
+
             entities.push_back(entity);
         }
         return entities;
@@ -174,6 +186,12 @@ namespace Tetris
             Entity entity = _registry.spawnEntity();
             _registry.getComponents<Components::Position>().insertAt(entity,
                                                                      Components::Position{sppos.first, sppos.second});
+
+            int pivotX = 1;
+            int pivotY = 0;
+            _registry.getComponents<Components::Tetromino>().insertAt(
+                entity, Components::Tetromino(TetrominoType::S, 0, colOffset - pivotX, rowOffset - pivotY));
+
             entities.push_back(entity);
         }
         return entities;
@@ -216,6 +234,12 @@ namespace Tetris
             Entity entity = _registry.spawnEntity();
             _registry.getComponents<Components::Position>().insertAt(entity,
                                                                      Components::Position{sppos.first, sppos.second});
+
+            int pivotX = 1;
+            int pivotY = 0;
+            _registry.getComponents<Components::Tetromino>().insertAt(
+                entity, Components::Tetromino(TetrominoType::Z, 0, colOffset - pivotX, rowOffset - pivotY));
+
             entities.push_back(entity);
         }
         return entities;
@@ -258,6 +282,12 @@ namespace Tetris
             Entity entity = _registry.spawnEntity();
             _registry.getComponents<Components::Position>().insertAt(entity,
                                                                      Components::Position{sppos.first, sppos.second});
+
+            int pivotX = 1;
+            int pivotY = 1;
+            _registry.getComponents<Components::Tetromino>().insertAt(
+                entity, Components::Tetromino(TetrominoType::T, 0, colOffset - pivotX, rowOffset - pivotY));
+
             entities.push_back(entity);
         }
         return entities;
@@ -301,6 +331,12 @@ namespace Tetris
 
             _registry.getComponents<Components::Position>().insertAt(entity,
                                                                      Components::Position{sppos.first, sppos.second});
+
+            int pivotX = 1;
+            int pivotY = 0;
+            _registry.getComponents<Components::Tetromino>().insertAt(
+                entity, Components::Tetromino(TetrominoType::T, 0, colOffset - pivotX, rowOffset - pivotY));
+
             entities.push_back(entity);
         }
         return entities;
