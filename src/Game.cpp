@@ -29,8 +29,6 @@ namespace Tetris
         this->_initKeybinds();
         this->_initSubscriptions();
 
-        this->_dropingEntity->createTestLine(17);
-
         LOG_INFO("Game initialized");
     }
 

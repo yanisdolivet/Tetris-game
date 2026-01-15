@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2026
 ** Tetris-game
 ** File description:
-** EventRotate
+** EventInput
 */
 
 #include <map>
@@ -133,7 +133,7 @@ void Tetris::Game::_registerEventRotateCntClockwise(GameEngine::Core& engine)
                 auto& pos = positions[e];
 
                 // Rotate Local Position CCW (x, y) -> (y, -x) for +Y Down
-                if (!tet.has_value() && !pos.has_value())
+                if (!tet.has_value() || !pos.has_value())
                     return;
                 int oldLocX = tet.value().getLocalX();
                 int oldLocY = tet.value().getLocalY();
@@ -256,7 +256,7 @@ void Tetris::Game::_registerEventRotateClockwise(GameEngine::Core& engine)
                 auto& pos = positions[e];
 
                 // Rotate Local Position CW (x, y) -> (-y, x) for +Y Down
-                if (!tet.has_value() && !pos.has_value())
+                if (!tet.has_value() || !pos.has_value())
                     return;
                 int oldLocX = tet.value().getLocalX();
                 int oldLocY = tet.value().getLocalY();

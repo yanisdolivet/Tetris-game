@@ -20,13 +20,10 @@ void LineDeletion::operator()(Registry& registry, double, SparseArray<Components
             if (cold.getType() != BLOCKNAME || mov.getVertical() != 0)
                 continue;
 
-            // LOG_INFO("Checking entity {} at position Y={}", idx, pos.getY());
-
             Entity entity = registry.entityFromIndex(idx);
             float epsilon = HEIGHT_BLOCK * BLOCK_SCALE / 2.0f;
             if (std::abs(pos.getY() - (row * (HEIGHT_BLOCK * BLOCK_SCALE) + STARTING_POSITION_Y)) < epsilon) {
                 entities_to_delete.push_back(entity);
-                // LOG_INFO("Entity {} marked for deletion on row {}", idx, row);
             }
         }
         if (entities_to_delete.size() >= (BOARD_WIDTH - 2)) {
