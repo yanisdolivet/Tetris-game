@@ -27,6 +27,7 @@ set(TETRIS_SOURCES
     src/events/EventInput.cpp
     src/events/EventLineComplete.cpp
     src/components/Tetromino.cpp
+    src/TextFactory.cpp
 )
 
 include(FetchContent)

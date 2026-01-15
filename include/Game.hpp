@@ -33,6 +33,7 @@
 #include <Velocity.hpp>
 #include <chrono>
 #include <memory>
+#include <tuple>
 
 #include "BlockId.hpp"
 #include "BlockSpawner.hpp"
@@ -107,6 +108,13 @@ namespace Tetris
             void _createBoard(Registry& registry);
 
             /**
+             * @brief Create main text
+             * @param registry
+             * @return void
+             */
+            void _createMainText(Registry& registry);
+
+            /**
              * @brief Register collision event
              * @param engine
              * @return void
@@ -165,5 +173,6 @@ namespace Tetris
             float _offset_y = 0.0f;
 
             std::unique_ptr<DropingEntity> _dropingEntity;
+            int _textId = 0;
     };
 } // namespace Tetris

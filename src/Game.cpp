@@ -44,6 +44,7 @@ namespace Tetris
         Registry& registry = this->_engine.getRegistry();
 
         this->_createBoard(registry);
+        this->_createMainText(registry);
 
         LOG_INFO("Initializing game entities");
     }
@@ -184,11 +185,15 @@ namespace Tetris
 
     void Game::_initGraphic()
     {
-        this->_graphic->initWindow(800, 600, "Tetris Game");
+        this->_graphic->initWindow(WIN_WIDTH, WIN_HEIGHT, "Tetris Game");
         const std::map<std::string, std::string>& sprites = {
             {"BLOCK", "assets/tetris-Sheet.png"},
         };
+        const std::map<std::string, std::string>& fonts = {
+            {"TETRIS_FONT", "assets/tetris-font.ttf"},
+        };
         this->_resource_manager.get()->loadTexturesFromMap(sprites);
+        this->_resource_manager.get()->loadFontsFromMap(fonts);
 
         this->_offset_x = this->_graphic->getWindowSize().first / 2 - (BOARD_WIDTH * (WIDTH_BLOCK * BLOCK_SCALE)) / 2;
         this->_offset_y = this->_graphic->getWindowSize().second - (BOARD_HEIGHT * (HEIGHT_BLOCK * BLOCK_SCALE));
