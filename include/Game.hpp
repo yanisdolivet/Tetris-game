@@ -29,6 +29,7 @@
 #include <ResourceManager.hpp>
 #include <Speed.hpp>
 #include <SpriteComponent.hpp>
+#include <TextComponent.hpp>
 #include <Velocity.hpp>
 #include <chrono>
 #include <memory>

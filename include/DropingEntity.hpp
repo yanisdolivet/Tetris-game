@@ -70,7 +70,7 @@ namespace Tetris
 
             Registry& _registry;
 
-            int _currentBlockId;
+            int _currentBlockId = 0;
     };
 
 } // namespace Tetris
