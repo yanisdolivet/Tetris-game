@@ -14,14 +14,15 @@ namespace Tetris
         this->_graphic          = std::make_shared<Graphic::Raylib>();
         this->_resource_manager = std::make_unique<ResourceManager>(*_graphic, *_graphic);
         this->_dropingEntity    = std::make_unique<DropingEntity>(this->_engine.getRegistry());
+        this->_current_scene    = GAME_MENU;
     }
 
     Game::~Game()
     {
     }
-
     void Game::init()
     {
+        this->_initScenes();
         this->_initGraphic();
         this->_initComponents();
         this->_initSystems();
@@ -38,14 +39,66 @@ namespace Tetris
         this->_engine.run();
     }
 
+    void Game::_killAllEntities()
+    {
+        Registry& registry = this->_engine.getRegistry();
+
+        auto& positions = registry.getComponents<Components::Position>();
+
+        std::vector<Entity> entitiesToKill;
+        for (auto [idx, pos] : IndexedZipper(positions)) {
+            if (positions[idx].has_value()) {
+                entitiesToKill.push_back(static_cast<Entity>(idx));
+            }
+        }
+
+        // Kill all entities
+        for (Entity entity : entitiesToKill) {
+            registry.killEntity(entity);
+            LOG_TRACE("Killed entity {}", static_cast<std::size_t>(entity));
+        }
+
+        LOG_INFO("Killed {} entities from the previous scene", entitiesToKill.size());
+    }
+
+    void Game::_initScenes()
+    {
+        std::map<std::string,
+                 std::tuple<std::function<void()>, std::function<void(std::string)>, std::function<void()>>>
+            scenes = {{GAME_PLAY,
+                       {[this]() {
+                            // Kill entities from previous scene if needed
+                            this->_killAllEntities();
+                        },
+                        [this](std::string event) {
+                            // Handle scene-specific events
+                            this->_current_scene = GAME_PLAY;
+                            this->_initSubscriptions();
+                            LOG_INFO("Game Scene Start");
+                        },
+                        [this]() {
+                            // Spawn entities for this scene
+                            this->_createBoard(this->_engine.getRegistry());
+                            this->_createMainText(this->_engine.getRegistry());
+                        }}}};
+
+        this->_scene_manager.loadSceneFromMap(scenes);
+    }
+
     void Game::_initEntities()
     {
         Registry& registry = this->_engine.getRegistry();
 
-        this->_createBoard(registry);
-        this->_createMainText(registry);
+        if (this->_current_scene == GAME_PLAY) {
+            this->_createBoard(registry);
+            this->_createMainText(registry);
+        }
+        else if (this->_current_scene == GAME_MENU) {
+            this->_createMainText(registry);
+            this->_createMenuText(registry);
+        }
 
-        LOG_INFO("Initializing game entities");
+        LOG_INFO("All entities initialized");
     }
 
     void Game::_initComponents()
@@ -111,14 +164,17 @@ namespace Tetris
 
     void Game::_initSubscriptions()
     {
-        Common::initEngineSubscriptions(this->_engine);
-        this->_registerEventCollision(this->_engine);
-        this->_registerEventSpawnBlock(this->_engine);
-        this->_registerEventGameOver(this->_engine);
-        this->_registerEventRotateCntClockwise(this->_engine);
-        this->_registerEventRotateClockwise(this->_engine);
-        this->_registerEventMove(this->_engine);
-        this->_registerEventLineComplete(this->_engine);
+        Common::initEngineSubscriptions(this->_engine, this->_scene_manager);
+
+        if (this->_current_scene == GAME_PLAY) {
+            this->_registerEventCollision(this->_engine);
+            this->_registerEventSpawnBlock(this->_engine);
+            this->_registerEventGameOver(this->_engine);
+            this->_registerEventRotateCntClockwise(this->_engine);
+            this->_registerEventRotateClockwise(this->_engine);
+            this->_registerEventMove(this->_engine);
+            this->_registerEventLineComplete(this->_engine);
+        }
         LOG_INFO("Initializing event subscriptions");
     }
 
@@ -180,6 +236,21 @@ namespace Tetris
 
         if (A_action_binding.onRelease) {
             this->_graphic->addKeyReleasedMapping(keyA, A_action_binding.onRelease);
+        }
+
+        int keySpace                              = this->_graphic->stringtoKeyCode("SPACE");
+        const ActionBinding& SPACE_action_binding = ActionBinding{.onPress =
+                                                                      [](Registry& registry) {
+                                                                          registry.publish(EventChangeScene{GAME_PLAY});
+                                                                      },
+                                                                  .onRelease = nullptr};
+        if (SPACE_action_binding.onPress) {
+            LOG_INFO("Adding action to keySpace {}", keySpace);
+            this->_graphic->addKeyMapping(keySpace, SPACE_action_binding.onPress);
+        }
+
+        if (SPACE_action_binding.onRelease) {
+            this->_graphic->addKeyReleasedMapping(keySpace, SPACE_action_binding.onRelease);
         }
 
         LOG_INFO("Initializing keybinds");

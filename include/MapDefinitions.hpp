@@ -49,4 +49,7 @@ enum class TetrominoType
     Z
 };
 
+#define GAME_MENU "TETRIS_MENU"
+#define GAME_PLAY "TETRIS_PLAY"
+
 #endif /* !MAPDEFINITIONS_HPP_ */

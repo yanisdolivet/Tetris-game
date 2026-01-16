@@ -28,6 +28,7 @@
 #include <Raylib.hpp>
 #include <RenderSystem.hpp>
 #include <ResourceManager.hpp>
+#include <SceneManager.hpp>
 #include <Speed.hpp>
 #include <SpriteComponent.hpp>
 #include <TextComponent.hpp>
@@ -164,10 +165,30 @@ namespace Tetris
              */
             void _registerEventLineComplete(GameEngine::Core& engine);
 
+            /**
+             * @brief Initialize scenes
+             * @return void
+             */
+            void _initScenes();
+
+            /**
+             * @brief Kill all entities
+             * @return void
+             */
+            void _killAllEntities();
+
+            /**
+             * @brief Create menu text
+             * @param registry
+             * @return void
+             */
+            void _createMenuText(Registry& registry);
+
         private:
             std::shared_ptr<Graphic::Raylib> _graphic;
             GameEngine::Core _engine;
             std::unique_ptr<ResourceManager> _resource_manager;
+            SceneManager _scene_manager;
 
             // Board offsets
             float _offset_x = 0.0f;
@@ -175,5 +196,6 @@ namespace Tetris
 
             std::unique_ptr<DropingEntity> _dropingEntity;
             int _textId = 0;
+            std::string _current_scene;
     };
 } // namespace Tetris
