@@ -12,6 +12,7 @@ void Tetris::Game::_registerEventGameOver(GameEngine::Core& engine)
     engine.getRegistry().subscribe<EventGameOver>([this](const EventGameOver&) {
         Registry& registry = this->_engine.getRegistry();
 
+        this->_graphic.get()->playSound("GAME_OVER");
         auto& positions = registry.getComponents<Components::Position>();
 
         std::vector<Entity> entitiesToKill;
@@ -29,5 +30,6 @@ void Tetris::Game::_registerEventGameOver(GameEngine::Core& engine)
 
         LOG_INFO("Killed {} entities", entitiesToKill.size());
         LOG_FATAL("Game Over, Killing all entities");
+        // this->_graphic.get()->stopSound("GAME_OVER");
     });
 }

@@ -84,7 +84,7 @@ namespace
 
 void Tetris::Game::_registerEventCollision(GameEngine::Core& engine)
 {
-    engine.getRegistry().subscribe<EventCollision>([&engine](const EventCollision& event) {
+    engine.getRegistry().subscribe<EventCollision>([&engine, this](const EventCollision& event) {
         auto& registry      = engine.getRegistry();
         std::string entityA = event.entityAName;
         std::string entityB = event.entityBName;
@@ -96,6 +96,7 @@ void Tetris::Game::_registerEventCollision(GameEngine::Core& engine)
 
         // Handle block collisions
         if (entityA == "BLOCK") {
+            ;
             handleBlockCollision(registry, event.entityA);
         }
         if (entityB == "BLOCK") {

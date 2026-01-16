@@ -91,12 +91,13 @@ void Tetris::Game::_registerEventRotateCntClockwise(GameEngine::Core& engine)
         Registry& registry = this->_engine.getRegistry();
         auto& tetrominos   = registry.getComponents<Components::Tetromino>();
         auto& positions    = registry.getComponents<Components::Position>();
+        auto& movements    = registry.getComponents<Components::Movement>();
         auto& blockIds     = registry.getComponents<Components::BlockId>();
         auto& colliders    = registry.getComponents<Components::Collider>();
 
         int maxId = -1;
-        for (auto [idx, id] : IndexedZipper(blockIds)) {
-            if (id.getBlockId() > maxId)
+        for (auto [idx, id, mv] : IndexedZipper(blockIds, movements)) {
+            if (id.getBlockId() > maxId && mv.getVertical() != 0)
                 maxId = id.getBlockId();
         }
         if (maxId == -1)
@@ -201,6 +202,7 @@ void Tetris::Game::_registerEventRotateCntClockwise(GameEngine::Core& engine)
                     tet.setRotationState(newRotation);
                 }
                 LOG_INFO("Rotated Piece CCW with Kick Test {}", test);
+                this->_graphic.get()->playSound("ROTATE_PIECE");
                 return; // Success
             }
         }
@@ -214,12 +216,13 @@ void Tetris::Game::_registerEventRotateClockwise(GameEngine::Core& engine)
         Registry& registry = this->_engine.getRegistry();
         auto& tetrominos   = registry.getComponents<Components::Tetromino>();
         auto& positions    = registry.getComponents<Components::Position>();
+        auto& movements    = registry.getComponents<Components::Movement>();
         auto& blockIds     = registry.getComponents<Components::BlockId>();
         auto& colliders    = registry.getComponents<Components::Collider>();
 
         int maxId = -1;
-        for (auto [idx, id] : IndexedZipper(blockIds)) {
-            if (id.getBlockId() > maxId)
+        for (auto [idx, id, mv] : IndexedZipper(blockIds, movements)) {
+            if (id.getBlockId() > maxId && mv.getVertical() != 0)
                 maxId = id.getBlockId();
         }
         if (maxId == -1)
@@ -323,6 +326,7 @@ void Tetris::Game::_registerEventRotateClockwise(GameEngine::Core& engine)
                     tet.setRotationState(newRotation);
                 }
                 LOG_INFO("Rotated Piece CW with Kick Test {}", test);
+                this->_graphic.get()->playSound("ROTATE_PIECE");
                 return; // Success
             }
         }
@@ -335,12 +339,13 @@ void Tetris::Game::_registerEventMove(GameEngine::Core& engine)
     engine.getRegistry().subscribe<EventLeft>([this](const EventLeft& event) {
         Registry& registry = this->_engine.getRegistry();
         auto& positions    = registry.getComponents<Components::Position>();
+        auto& movements    = registry.getComponents<Components::Movement>();
         auto& blockIds     = registry.getComponents<Components::BlockId>();
         auto& colliders    = registry.getComponents<Components::Collider>();
 
         int maxId = -1;
-        for (auto [idx, id] : IndexedZipper(blockIds)) {
-            if (id.getBlockId() > maxId)
+        for (auto [idx, id, mv] : IndexedZipper(blockIds, movements)) {
+            if (id.getBlockId() > maxId && mv.getVertical() != 0)
                 maxId = id.getBlockId();
         }
         if (maxId == -1)
@@ -398,6 +403,7 @@ void Tetris::Game::_registerEventMove(GameEngine::Core& engine)
                 auto& pos = registry.getSpecificComponent<Components::Position>(e);
                 pos.setX(pos.getX() + moveX);
             }
+            this->_graphic.get()->playSound("MOVE_PIECE");
             LOG_INFO("Moved Piece Left");
         }
     });
@@ -405,12 +411,13 @@ void Tetris::Game::_registerEventMove(GameEngine::Core& engine)
     engine.getRegistry().subscribe<EventRight>([this](const EventRight& event) {
         Registry& registry = this->_engine.getRegistry();
         auto& positions    = registry.getComponents<Components::Position>();
+        auto& movements    = registry.getComponents<Components::Movement>();
         auto& blockIds     = registry.getComponents<Components::BlockId>();
         auto& colliders    = registry.getComponents<Components::Collider>();
 
         int maxId = -1;
-        for (auto [idx, id] : IndexedZipper(blockIds)) {
-            if (id.getBlockId() > maxId)
+        for (auto [idx, id, mv] : IndexedZipper(blockIds, movements)) {
+            if (id.getBlockId() > maxId && mv.getVertical() != 0)
                 maxId = id.getBlockId();
         }
         if (maxId == -1)
@@ -468,6 +475,7 @@ void Tetris::Game::_registerEventMove(GameEngine::Core& engine)
                 auto& pos = registry.getSpecificComponent<Components::Position>(e);
                 pos.setX(pos.getX() + moveX);
             }
+            this->_graphic.get()->playSound("MOVE_PIECE");
             LOG_INFO("Moved Piece Right");
         }
     });

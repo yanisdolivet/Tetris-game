@@ -11,6 +11,7 @@ void Tetris::Game::_registerEventLineComplete(GameEngine::Core& engine)
 {
     engine.getRegistry().subscribe<EventLineComplete>([this](const EventLineComplete& event) {
         Registry& registry = this->_engine.getRegistry();
+        this->_graphic.get()->playSound("LINE_CLEAR");
 
         LOG_TRACE("Line {} completed with {} blocks to delete!", event.lineIndex, event.entitiesToDelete.size());
         for (Entity entity : event.entitiesToDelete) {

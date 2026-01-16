@@ -36,7 +36,6 @@ namespace Tetris
     {
         this->_engine.start();
         this->_engine.run();
-        LOG_INFO("Game Running");
     }
 
     void Game::_initEntities()
@@ -192,11 +191,26 @@ namespace Tetris
         const std::map<std::string, std::string>& fonts = {
             {"TETRIS_FONT", "assets/tetris-font.ttf"},
         };
+        const std::map<std::string, std::string>& sounds = {
+            {"MENU_SOUND", "assets/Tetris (GB) (17)-menu_sound.wav"},
+            {"MOVE_PIECE", "assets/Tetris (GB) (18)-move_piece.wav"},
+            {"ROTATE_PIECE", "assets/Tetris (GB) (19)-rotate_piece.wav"},
+            {"LINE_CLEAR", "assets/Tetris (GB) (21)-line_clear.wav"},
+            {"GAME_OVER", "assets/Tetris (GB) (25)-game_over.wav"},
+            {"PIECE_LAND", "assets/Tetris (GB) (27)-piece_landed.wav"},
+        };
         this->_resource_manager.get()->loadTexturesFromMap(sprites);
         this->_resource_manager.get()->loadFontsFromMap(fonts);
+        this->_resource_manager.get()->loadSoundsFromMap(sounds);
 
         this->_offset_x = this->_graphic->getWindowSize().first / 2 - (BOARD_WIDTH * (WIDTH_BLOCK * BLOCK_SCALE)) / 2;
         this->_offset_y = this->_graphic->getWindowSize().second - (BOARD_HEIGHT * (HEIGHT_BLOCK * BLOCK_SCALE));
+
+        // Test sound loading
+        LOG_INFO("Testing sound system...");
+        this->_graphic->setVolumeSound("PIECE_LAND", 1.0f);
+        this->_graphic->playSound("PIECE_LAND");
+        LOG_INFO("Sound test complete");
 
         LOG_INFO("Initializing graphics");
     }
