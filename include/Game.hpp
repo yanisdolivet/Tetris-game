@@ -9,6 +9,7 @@
 
 #include <AnimationComponent.hpp>
 #include <AnimationSystem.hpp>
+#include <AudioSystem.hpp>
 #include <Collider.hpp>
 #include <CollisionSystem.hpp>
 #include <Core.hpp>

@@ -103,6 +103,9 @@ namespace Tetris
         this->_engine.getRegistry().addSystem<Components::Position, Components::Collider, Components::Movement>(
             LineDeletion());
 
+        // Audio System
+        this->_engine.getRegistry().addSystem<>(AudioSystem(this->_graphic));
+
         LOG_INFO("Initializing game systems");
     }
 
@@ -199,18 +202,20 @@ namespace Tetris
             {"GAME_OVER", "assets/Tetris (GB) (25)-game_over.wav"},
             {"PIECE_LAND", "assets/Tetris (GB) (27)-piece_landed.wav"},
         };
-        this->_resource_manager.get()->loadTexturesFromMap(sprites);
-        this->_resource_manager.get()->loadFontsFromMap(fonts);
-        this->_resource_manager.get()->loadSoundsFromMap(sounds);
+        const std::map<std::string, std::string>& musics = {
+            {"BASIC_BG_MUSIC", "assets/music-for-puzzle-game-146738.mp3"}};
+
+        this->_resource_manager->loadTexturesFromMap(sprites);
+        this->_resource_manager->loadFontsFromMap(fonts);
+        this->_resource_manager->loadSoundsFromMap(sounds);
+        this->_resource_manager->loadMusicsFromMap(musics);
 
         this->_offset_x = this->_graphic->getWindowSize().first / 2 - (BOARD_WIDTH * (WIDTH_BLOCK * BLOCK_SCALE)) / 2;
         this->_offset_y = this->_graphic->getWindowSize().second - (BOARD_HEIGHT * (HEIGHT_BLOCK * BLOCK_SCALE));
 
-        // Test sound loading
-        LOG_INFO("Testing sound system...");
-        this->_graphic->setVolumeSound("PIECE_LAND", 1.0f);
-        this->_graphic->playSound("PIECE_LAND");
-        LOG_INFO("Sound test complete");
+        // Start playing the music;
+        this->_graphic->setVolumeMusic("BASIC_BG_MUSIC", 0.3f);
+        this->_graphic->playMusic("BASIC_BG_MUSIC");
 
         LOG_INFO("Initializing graphics");
     }
