@@ -367,7 +367,11 @@ namespace Tetris
                     GameEngine::Math::Vector2 scale         = {BLOCK_SCALE, BLOCK_SCALE};
                     int layer                               = 1;
                     _registry.getComponents<Components::DrawableComponent>().insertAt(
-                        entity, Components::DrawableComponent{source_rect, true, scale, layer});
+                        entity, Components::DrawableComponent{source_rect, false, layer});
+
+                    _registry.getComponents<Components::Scale>().insertAt(entity, Components::Scale{scale.x, scale.y});
+
+                    _registry.getComponents<Components::Scale>().insertAt(entity, Components::Scale{scale.x, scale.y});
 
                     _registry.getComponents<Components::SpriteComponent>().insertAt(
                         entity, Components::SpriteComponent{"BLOCK", layer});
@@ -425,7 +429,9 @@ namespace Tetris
             int layer                               = 1;
 
             _registry.getComponents<Components::DrawableComponent>().insertAt(
-                entity, Components::DrawableComponent{source_rect, true, scale, layer});
+                entity, Components::DrawableComponent{source_rect, true, layer});
+
+            _registry.getComponents<Components::Scale>().insertAt(entity, Components::Scale{scale.x, scale.y});
 
             _registry.getComponents<Components::SpriteComponent>().insertAt(
                 entity, Components::SpriteComponent{"BLOCK", layer});
@@ -476,7 +482,9 @@ namespace Tetris
             int layer                               = 1;
 
             _registry.getComponents<Components::DrawableComponent>().insertAt(
-                entity, Components::DrawableComponent{source_rect, true, scale, layer});
+                entity, Components::DrawableComponent{source_rect, true, layer});
+
+            _registry.getComponents<Components::Scale>().insertAt(entity, Components::Scale{scale.x, scale.y});
 
             _registry.getComponents<Components::SpriteComponent>().insertAt(
                 entity, Components::SpriteComponent{"BLOCK", layer});

@@ -34,3 +34,8 @@ struct EventRotateClockwise
 {
         bool pressed;
 };
+
+struct EventDisplayBlock
+{
+        Entity entity;
+};

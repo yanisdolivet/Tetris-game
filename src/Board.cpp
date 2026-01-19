@@ -22,7 +22,9 @@ namespace Tetris
                 int layer                               = 0;
 
                 registry.getComponents<Components::DrawableComponent>().insertAt(
-                    entity, Components::DrawableComponent{source_rect, true, scale, layer});
+                    entity, Components::DrawableComponent{source_rect, true, layer});
+
+                registry.getComponents<Components::Scale>().insertAt(entity, Components::Scale{scale.x, scale.y});
 
                 registry.getComponents<Components::SpriteComponent>().insertAt(
                     entity, Components::SpriteComponent{"BLOCK", layer});
@@ -30,6 +32,9 @@ namespace Tetris
                 registry.getComponents<Components::Position>().insertAt(
                     entity, Components::Position{static_cast<float>(x * (WIDTH_BLOCK * scale.x) + offset_x),
                                                  static_cast<float>(row * (HEIGHT_BLOCK * scale.y) + offset_y)});
+                LOG_INFO("Created wall block at position ({}, {})",
+                         static_cast<float>(x * (WIDTH_BLOCK * scale.x) + offset_x),
+                         static_cast<float>(row * (HEIGHT_BLOCK * scale.y) + offset_y));
 
                 registry.getComponents<Components::Collider>().insertAt(
                     entity, Components::Collider{static_cast<int>(WIDTH_BLOCK * scale.x),
@@ -50,7 +55,9 @@ namespace Tetris
                 int layer                               = 0;
 
                 registry.getComponents<Components::DrawableComponent>().insertAt(
-                    entity, Components::DrawableComponent{source_rect, true, scale, layer});
+                    entity, Components::DrawableComponent{source_rect, true, layer});
+
+                registry.getComponents<Components::Scale>().insertAt(entity, Components::Scale{scale.x, scale.y});
 
                 registry.getComponents<Components::SpriteComponent>().insertAt(
                     entity, Components::SpriteComponent{"BLOCK", layer});

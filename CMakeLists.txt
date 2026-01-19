@@ -27,6 +27,7 @@ set(TETRIS_SOURCES
     src/events/EventInput.cpp
     src/events/EventLineComplete.cpp
     src/components/Tetromino.cpp
+    src/TextFactory.cpp
 )
 
 include(FetchContent)
@@ -34,7 +35,7 @@ include(FetchContent)
 FetchContent_Declare(
     game_engine
     GIT_REPOSITORY https://github.com/yanisdolivet/RType-GameEngine
-    GIT_TAG        release/tetris
+    GIT_TAG        main
 )
 FetchContent_MakeAvailable(game_engine)
 
@@ -63,6 +64,7 @@ find_package(raylib CONFIG REQUIRED)
 find_package(GTest REQUIRED)
 find_package(fmt REQUIRED)
 find_package(spdlog REQUIRED)
+find_package(imgui REQUIRED)
 
 if (BUILD_TESTING)
     # Find GTest package installed with Conan

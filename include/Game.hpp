@@ -9,6 +9,7 @@
 
 #include <AnimationComponent.hpp>
 #include <AnimationSystem.hpp>
+#include <AudioSystem.hpp>
 #include <Collider.hpp>
 #include <CollisionSystem.hpp>
 #include <Core.hpp>
@@ -27,12 +28,14 @@
 #include <Raylib.hpp>
 #include <RenderSystem.hpp>
 #include <ResourceManager.hpp>
+#include <SceneManager.hpp>
 #include <Speed.hpp>
 #include <SpriteComponent.hpp>
 #include <TextComponent.hpp>
 #include <Velocity.hpp>
 #include <chrono>
 #include <memory>
+#include <tuple>
 
 #include "BlockId.hpp"
 #include "BlockSpawner.hpp"
@@ -40,8 +43,10 @@
 #include "LineDeletion.hpp"
 #include "Logs.hpp"
 #include "MapDefinitions.hpp"
+#include "Scale.hpp"
 #include "TetrisEvent.hpp"
 #include "Tetromino.hpp"
+
 namespace Tetris
 {
     class Game
@@ -107,11 +112,18 @@ namespace Tetris
             void _createBoard(Registry& registry);
 
             /**
+             * @brief Create main text
+             * @param registry
+             * @return void
+             */
+            void _createMainText(Registry& registry);
+
+            /**
              * @brief Register collision event
              * @param engine
              * @return void
              */
-            void _registerEventCollision(GameEngine::Core& engine);
+            void _registerEventCollision(GameEngine::Core& engine, float offset_y);
 
             /**
              * @brief Register spawn block event
@@ -155,15 +167,37 @@ namespace Tetris
              */
             void _registerEventLineComplete(GameEngine::Core& engine);
 
+            /**
+             * @brief Initialize scenes
+             * @return void
+             */
+            void _initScenes();
+
+            /**
+             * @brief Kill all entities
+             * @return void
+             */
+            void _killAllEntities();
+
+            /**
+             * @brief Create menu text
+             * @param registry
+             * @return void
+             */
+            void _createMenuText(Registry& registry);
+
         private:
             std::shared_ptr<Graphic::Raylib> _graphic;
             GameEngine::Core _engine;
             std::unique_ptr<ResourceManager> _resource_manager;
+            SceneManager _scene_manager;
 
             // Board offsets
             float _offset_x = 0.0f;
             float _offset_y = 0.0f;
 
             std::unique_ptr<DropingEntity> _dropingEntity;
+            int _textId = 0;
+            std::string _current_scene;
     };
 } // namespace Tetris

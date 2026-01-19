@@ -82,9 +82,9 @@ namespace
     }
 } // anonymous namespace
 
-void Tetris::Game::_registerEventCollision(GameEngine::Core& engine)
+void Tetris::Game::_registerEventCollision(GameEngine::Core& engine, float offset_y)
 {
-    engine.getRegistry().subscribe<EventCollision>([&engine](const EventCollision& event) {
+    engine.getRegistry().subscribe<EventCollision>([&engine, this, offset_y](const EventCollision& event) {
         auto& registry      = engine.getRegistry();
         std::string entityA = event.entityAName;
         std::string entityB = event.entityBName;
@@ -92,6 +92,27 @@ void Tetris::Game::_registerEventCollision(GameEngine::Core& engine)
         // Skip collisions that should be ignored
         if (shouldIgnoreCollision(entityA, entityB)) {
             return;
+        }
+
+        if (entityA == "WALL" && entityB == "BLOCK") {
+            size_t entityIndex = event.entityA;
+            Entity entity      = registry.entityFromIndex(entityIndex);
+
+            // Ignore collision if wall is at the top
+            auto& position = registry.getSpecificComponent<Components::Position>(entity);
+            if (position.getY() <= offset_y) {
+                return;
+            }
+        }
+        else if (entityB == "WALL" && entityA == "BLOCK") {
+            size_t entityIndex = event.entityB;
+            Entity entity      = registry.entityFromIndex(entityIndex);
+
+            // Ignore collision if wall is at the top
+            auto& position = registry.getSpecificComponent<Components::Position>(entity);
+            if (position.getY() <= offset_y) {
+                return;
+            }
         }
 
         // Handle block collisions
