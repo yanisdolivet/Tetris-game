@@ -35,7 +35,7 @@ include(FetchContent)
 FetchContent_Declare(
     game_engine
     GIT_REPOSITORY https://github.com/yanisdolivet/RType-GameEngine
-    GIT_TAG        release/tetris
+    GIT_TAG        main
 )
 FetchContent_MakeAvailable(game_engine)
 

@@ -101,7 +101,6 @@ void Tetris::Game::_registerEventCollision(GameEngine::Core& engine, float offse
             // Ignore collision if wall is at the top
             auto& position = registry.getSpecificComponent<Components::Position>(entity);
             if (position.getY() <= offset_y) {
-                LOG_INFO("Ignoring collision with top wall at Y position {}", position.getY());
                 return;
             }
         }
@@ -112,18 +111,15 @@ void Tetris::Game::_registerEventCollision(GameEngine::Core& engine, float offse
             // Ignore collision if wall is at the top
             auto& position = registry.getSpecificComponent<Components::Position>(entity);
             if (position.getY() <= offset_y) {
-                LOG_INFO("Ignoring collision with top wall at Y position {}", position.getY());
                 return;
             }
         }
 
         // Handle block collisions
         if (entityA == "BLOCK") {
-            LOG_INFO("Handling collision for entity A (BLOCK)");
             handleBlockCollision(registry, event.entityA);
         }
         if (entityB == "BLOCK") {
-            LOG_INFO("Handling collision for entity B (BLOCK)");
             handleBlockCollision(registry, event.entityB);
         }
     });
