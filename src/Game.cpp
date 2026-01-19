@@ -116,6 +116,7 @@ namespace Tetris
         this->_engine.getRegistry().registerComponent<Components::BlockId>();
         this->_engine.getRegistry().registerComponent<Components::Tetromino>();
         this->_engine.getRegistry().registerComponent<Components::TextComponent>();
+        this->_engine.getRegistry().registerComponent<Components::Scale>();
 
         LOG_INFO("Initializing game components");
     }
@@ -126,10 +127,6 @@ namespace Tetris
         this->_engine.getRegistry()
             .addSystem<Components::DrawableComponent, Components::Position, Components::AnimationComponent,
                        Components::Parallax>(AnimationSystem());
-
-        // Rendering System
-        this->_engine.getRegistry().addSystem<Components::Position, Components::DrawableComponent>(
-            RenderSystem(this->_graphic));
 
         // Input System
         this->_engine.getRegistry().addSystem<>(
@@ -150,7 +147,8 @@ namespace Tetris
         this->_engine.getRegistry().addSystem<Components::Position, Components::Collider>(CollisionSystem());
 
         // Block Spawner System
-        this->_engine.getRegistry().addSystem<>(BlockSpawner());
+        this->_engine.getRegistry().addSystem<Components::Position, Components::SpriteComponent>(
+            BlockSpawner(this->_offset_y));
 
         // Line Deletion System
         this->_engine.getRegistry().addSystem<Components::Position, Components::Collider, Components::Movement>(
@@ -159,15 +157,19 @@ namespace Tetris
         // Audio System
         this->_engine.getRegistry().addSystem<>(AudioSystem(this->_graphic));
 
+        // Rendering System
+        this->_engine.getRegistry().addSystem<Components::Position, Components::DrawableComponent>(
+            RenderSystem(this->_graphic));
+
         LOG_INFO("Initializing game systems");
     }
 
     void Game::_initSubscriptions()
     {
-        Common::initEngineSubscriptions(this->_engine, this->_scene_manager);
+        Common::initEngineSubscriptions(this->_engine, std::ref(this->_scene_manager));
 
         if (this->_current_scene == GAME_PLAY) {
-            this->_registerEventCollision(this->_engine);
+            this->_registerEventCollision(this->_engine, this->_offset_y);
             this->_registerEventSpawnBlock(this->_engine);
             this->_registerEventGameOver(this->_engine);
             this->_registerEventRotateCntClockwise(this->_engine);
@@ -203,14 +205,9 @@ namespace Tetris
         }
 
         int keyZ                              = this->_graphic->stringtoKeyCode("KEY_W");
-        const ActionBinding& Z_action_binding = ActionBinding{.onPress =
-                                                                  [](Registry& registry) {
-                                                                      registry.publish(EventRotateCntClockwise{true});
-                                                                  },
-                                                              .onRelease =
-                                                                  [](Registry& registry) {
-                                                                      registry.publish(EventRotateCntClockwise{false});
-                                                                  }};
+        const ActionBinding& Z_action_binding = ActionBinding{.onPress = nullptr, .onRelease = [](Registry& registry) {
+                                                                  registry.publish(EventRotateCntClockwise{false});
+                                                              }};
         if (Z_action_binding.onPress) {
             LOG_INFO("Adding action to keyZ {}", keyZ);
             this->_graphic->addKeyMapping(keyZ, Z_action_binding.onPress);
@@ -221,14 +218,9 @@ namespace Tetris
         }
 
         int keyA                              = this->_graphic->stringtoKeyCode("KEY_A");
-        const ActionBinding& A_action_binding = ActionBinding{.onPress =
-                                                                  [](Registry& registry) {
-                                                                      registry.publish(EventRotateClockwise{true});
-                                                                  },
-                                                              .onRelease =
-                                                                  [](Registry& registry) {
-                                                                      registry.publish(EventRotateClockwise{false});
-                                                                  }};
+        const ActionBinding& A_action_binding = ActionBinding{.onPress = nullptr, .onRelease = [](Registry& registry) {
+                                                                  registry.publish(EventRotateClockwise{false});
+                                                              }};
         if (A_action_binding.onPress) {
             LOG_INFO("Adding action to keyA {}", keyA);
             this->_graphic->addKeyMapping(keyA, A_action_binding.onPress);

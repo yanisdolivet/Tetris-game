@@ -23,6 +23,7 @@
 #include "Movement.hpp"
 #include "Position.hpp"
 #include "Registry.hpp"
+#include "Scale.hpp"
 #include "Speed.hpp"
 #include "SpriteComponent.hpp"
 #include "TetrisEvent.hpp"

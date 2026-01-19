@@ -43,8 +43,10 @@
 #include "LineDeletion.hpp"
 #include "Logs.hpp"
 #include "MapDefinitions.hpp"
+#include "Scale.hpp"
 #include "TetrisEvent.hpp"
 #include "Tetromino.hpp"
+
 namespace Tetris
 {
     class Game
@@ -121,7 +123,7 @@ namespace Tetris
              * @param engine
              * @return void
              */
-            void _registerEventCollision(GameEngine::Core& engine);
+            void _registerEventCollision(GameEngine::Core& engine, float offset_y);
 
             /**
              * @brief Register spawn block event

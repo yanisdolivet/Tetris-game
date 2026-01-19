@@ -64,6 +64,7 @@ find_package(raylib CONFIG REQUIRED)
 find_package(GTest REQUIRED)
 find_package(fmt REQUIRED)
 find_package(spdlog REQUIRED)
+find_package(imgui REQUIRED)
 
 if (BUILD_TESTING)
     # Find GTest package installed with Conan

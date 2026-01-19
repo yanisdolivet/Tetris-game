@@ -8,6 +8,10 @@
 # Prerequisites
 *.d
 
+### ImGui ###
+imgui.ini
+imgui.log
+
 # Compiled Object files
 *.slo
 *.lo
